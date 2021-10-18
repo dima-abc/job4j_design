@@ -32,14 +32,21 @@ public class Generics {
         gen.printObject(third);
         System.out.println();
 
-        //gen.printBoundedWildCard(first);
+        /**
+         * ограничение сверху Animal выше Predator
+         * gen.printBoundedWildCard(first);
+         */
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        //gen.printLowerBoundedWildCard(third);
+        /**
+         * Ограничение сницу Tiger ниже Predator
+         * gen.printLowerBoundedWildCard(third);
+         */
+
     }
 
     /**
