@@ -1,7 +1,8 @@
-package ru.job4j.iteraor;
+package ru.job4j.it;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.it.EvenNumbersIterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
