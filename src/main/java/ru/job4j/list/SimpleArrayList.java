@@ -22,8 +22,6 @@ public class SimpleArrayList<T> implements List<T> {
      * создает список емкостью 10.
      */
     public SimpleArrayList() {
-        this.size = 0;
-        this.modCount = 0;
         this.container = (T[]) new Object[10];
     }
 
@@ -33,8 +31,6 @@ public class SimpleArrayList<T> implements List<T> {
      * @param capacity размер списка.
      */
     public SimpleArrayList(int capacity) {
-        this.size = 0;
-        this.modCount = 0;
         this.container = (T[]) new Object[capacity];
     }
 
