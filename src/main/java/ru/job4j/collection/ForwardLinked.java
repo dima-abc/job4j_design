@@ -34,6 +34,15 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     /**
+     * Добавляет новый элемент в начало списка.
+     *
+     * @param value Новое значение.
+     */
+    public void addFirst(T value) {
+        head = new Node<>(value, head);
+    }
+
+    /**
      * Удаление первого элемента в односвязном списке.
      */
     public T deleteFirst() {
