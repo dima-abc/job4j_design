@@ -1,5 +1,6 @@
 package ru.job4j.collection;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
  */
 public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
+    private int modCount;
 
     /**
      * Добавление нового элемента в конец списка.
@@ -26,11 +28,9 @@ public class ForwardLinked<T> implements Iterable<T> {
             head = node;
             return;
         }
-        Node<T> tail = head;
-        while (tail.next != null) {
-            tail = tail.next;
-        }
+        Node<T> tail = getTile();
         tail.next = node;
+        modCount++;
     }
 
     /**
@@ -40,6 +40,7 @@ public class ForwardLinked<T> implements Iterable<T> {
      */
     public void addFirst(T value) {
         head = new Node<>(value, head);
+        modCount++;
     }
 
     /**
@@ -52,7 +53,48 @@ public class ForwardLinked<T> implements Iterable<T> {
         Node<T> value = head;
         head = head.next;
         value.next = null;
+        modCount++;
         return value.value;
+    }
+
+    /**
+     * Удаление последнего элемента в односвязном списке.
+     */
+    public T deleteLast() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        Node<T> tile = head;
+        T value = tile.value;
+        if (head.next != null) {
+            while (tile.next.next != null) {
+                tile = tile.next;
+            }
+            value = tile.next.value;
+            tile.next = null;
+        }
+        if (head.next == null) {
+            head = null;
+        }
+        modCount++;
+        return value;
+
+    }
+
+    /**
+     * Возвращает последний элемент в списке.
+     *
+     * @return tile
+     */
+    private Node<T> getTile() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        Node<T> tile = head;
+        while (tile.next != null) {
+            tile = tile.next;
+        }
+        return tile;
     }
 
     /**
@@ -64,6 +106,7 @@ public class ForwardLinked<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             Node<T> node = head;
+            int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
@@ -72,6 +115,9 @@ public class ForwardLinked<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }

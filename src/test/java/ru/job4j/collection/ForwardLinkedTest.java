@@ -2,6 +2,7 @@ package ru.job4j.collection;
 
 import org.junit.Test;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -57,5 +58,34 @@ public class ForwardLinkedTest {
         assertThat(linked.deleteFirst(), is(1));
         assertThat(linked.deleteFirst(), is(3));
         assertThat(linked.deleteFirst(), is(4));
+    }
+
+    @Test
+    public void whenDeleteLastThen() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        linked.add(2);
+        linked.add(3);
+        assertThat(linked.deleteLast(), is(3));
+        assertThat(linked.deleteLast(), is(2));
+    }
+
+    @Test(expected = ConcurrentModificationException.class)
+    public void whenIteratotConcurrentModificationThenException() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        linked.add(2);
+        linked.add(3);
+        Iterator<Integer> iter = linked.iterator();
+        iter.next();
+        linked.add(4);
+        iter.next();
+    }
+
+    @Test
+    public void whenDeleteLestThenOneElement() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        assertThat(linked.deleteLast(), is(1));
     }
 }
