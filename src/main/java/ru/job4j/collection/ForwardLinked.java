@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 public class ForwardLinked<T> implements Iterable<T> {
     private Node<T> head;
     private int modCount;
+    private int size;
 
     /**
      * Добавление нового элемента в конец списка.
@@ -26,10 +27,12 @@ public class ForwardLinked<T> implements Iterable<T> {
         Node<T> node = new Node<>(value, null);
         if (head == null) {
             head = node;
+            size++;
             return;
         }
         Node<T> tail = getTile();
         tail.next = node;
+        size++;
         modCount++;
     }
 
@@ -40,6 +43,7 @@ public class ForwardLinked<T> implements Iterable<T> {
      */
     public void addFirst(T value) {
         head = new Node<>(value, head);
+        size++;
         modCount++;
     }
 
@@ -53,6 +57,7 @@ public class ForwardLinked<T> implements Iterable<T> {
         Node<T> value = head;
         head = head.next;
         value.next = null;
+        size--;
         modCount++;
         return value.value;
     }
@@ -76,9 +81,19 @@ public class ForwardLinked<T> implements Iterable<T> {
         if (head.next == null) {
             head = null;
         }
+        size--;
         modCount++;
         return value;
 
+    }
+
+    /**
+     * Размер коллекции.
+     *
+     * @return size.
+     */
+    public int size() {
+        return size;
     }
 
     /**

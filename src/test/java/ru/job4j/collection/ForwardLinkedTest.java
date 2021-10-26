@@ -88,4 +88,17 @@ public class ForwardLinkedTest {
         linked.add(1);
         assertThat(linked.deleteLast(), is(1));
     }
+
+    @Test
+    public void whenSizeGetThen3() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.add(1);
+        linked.add(2);
+        linked.addFirst(3);
+        linked.addFirst(4);
+        linked.add(5);
+        linked.deleteLast();
+        linked.deleteFirst();
+        assertThat(linked.size(), is(3));
+    }
 }

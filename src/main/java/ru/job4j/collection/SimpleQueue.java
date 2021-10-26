@@ -1,5 +1,8 @@
 package ru.job4j.collection;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * 2.1.3.List
  * 5. Очередь на двух стеках[#160 #127216]
@@ -19,8 +22,13 @@ public class SimpleQueue<T> {
      * @return удалённый элемент
      */
     public T poll() {
-
-            return null;
+        if (out.size() == 0) {
+            throw new NoSuchElementException();
+        }
+        revert(out, in);
+        T result = in.pop();
+        revert(in, out);
+        return result;
     }
 
     /**
@@ -30,5 +38,12 @@ public class SimpleQueue<T> {
      */
     public void push(T value) {
         in.push(value);
+        revert(in, out);
+    }
+
+    private void revert(SimpleStack<T> in, SimpleStack<T> out) {
+        for (int i = 0; i < in.size(); i++) {
+            out.push(in.pop());
+        }
     }
 }

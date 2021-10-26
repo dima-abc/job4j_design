@@ -1,5 +1,7 @@
 package ru.job4j.collection;
 
+import java.util.Iterator;
+
 /**
  * 2.1.3. List
  * 4. Используя контейнер на базе связанного списка
@@ -29,11 +31,20 @@ public class SimpleStack<T> {
 
     /**
      * Помещает значение в коллекцию.
-     * Добавляет элемент в конец списка.
+     * Добавляет элемент в начало списка.
      *
      * @param value новое значение.
      */
     public void push(T value) {
         linked.addFirst(value);
+    }
+
+    /**
+     * Размер контейнера
+     *
+     * @return size.
+     */
+    public int size() {
+        return linked.size();
     }
 }
