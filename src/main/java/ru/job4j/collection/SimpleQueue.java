@@ -1,6 +1,5 @@
 package ru.job4j.collection;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -22,12 +21,12 @@ public class SimpleQueue<T> {
      * @return удалённый элемент
      */
     public T poll() {
-        if (out.size() == 0) {
+        if (in.size() == 0) {
             throw new NoSuchElementException();
         }
-        revert(out, in);
-        T result = in.pop();
-        revert(in, out);
+        upend(in, out);
+        T result = out.pop();
+        upend(out, in);
         return result;
     }
 
@@ -38,11 +37,17 @@ public class SimpleQueue<T> {
      */
     public void push(T value) {
         in.push(value);
-        revert(in, out);
     }
 
-    private void revert(SimpleStack<T> in, SimpleStack<T> out) {
-        for (int i = 0; i < in.size(); i++) {
+    /**
+     * Перекладывает данные из коллекции в коллекцию.
+     *
+     * @param in  из.
+     * @param out в.
+     */
+    private void upend(SimpleStack<T> in, SimpleStack<T> out) {
+        int length = in.size();
+        for (int i = 0; i < length; i++) {
             out.push(in.pop());
         }
     }
