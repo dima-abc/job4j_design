@@ -21,13 +21,13 @@ public class SimpleQueue<T> {
      * @return удалённый элемент
      */
     public T poll() {
-        if (in.size() == 0) {
+        if (in.size() == 0 && out.size() == 0) {
             throw new NoSuchElementException();
         }
-        upend(in, out);
-        T result = out.pop();
-        upend(out, in);
-        return result;
+        if (out.size() == 0) {
+            upend(in, out);
+        }
+        return out.pop();
     }
 
     /**

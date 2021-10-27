@@ -25,14 +25,18 @@ public class SimpleQueueTest {
     }
 
     @Test
-    public void whenPush12ThenPop1() {
+    public void whenPushThenPopOf() {
         SimpleQueue<Integer> queue = new SimpleQueue<>();
         queue.push(1);
         queue.push(2);
         queue.push(3);
         queue.push(4);
         queue.push(5);
-        assertThat(queue.poll(), is(1));
+        queue.push(6);
+        queue.poll();
+        queue.poll();
+        queue.poll();
+        assertThat(queue.poll(), is(4));
     }
 
     @Test
