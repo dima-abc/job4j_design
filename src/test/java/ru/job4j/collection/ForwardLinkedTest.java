@@ -112,7 +112,7 @@ public class ForwardLinkedTest {
         assertThat(it.next(), is(2));
     }
 
-/*    @Test
+    @Test
     public void whenAddAndRevertThenIter() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
         linked.add(1);
@@ -140,5 +140,5 @@ public class ForwardLinkedTest {
         ForwardLinked<Integer> singleList = new ForwardLinked<>();
         singleList.add(1);
         assertThat(singleList.revert(), is(false));
-    }*/
+    }
 }
