@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * 7.ListIterator[#350217]
  *
  * @author Dima_Nout
- * @version 1
+ * @version 2
  * @since 31.10.2021
  */
 public class ListUtils {
@@ -23,15 +23,8 @@ public class ListUtils {
      * @param <T>   Type.
      */
     public static <T> void addBefore(List<T> list, int index, T value) {
-        Objects.checkIndex(index, list.size());
-        ListIterator<T> i = list.listIterator();
-        while (i.hasNext()) {
-            if (i.nextIndex() == index) {
-                i.add(value);
-                break;
-            }
-            i.next();
-        }
+        ListIterator<T> i = list.listIterator(index);
+        i.add(value);
     }
 
     /**
@@ -44,15 +37,8 @@ public class ListUtils {
      */
     public static <T> void addAfter(List<T> list, int index, T value) {
         Objects.checkIndex(index, list.size());
-        ListIterator<T> i = list.listIterator();
-        while (i.hasNext()) {
-            if (i.nextIndex() == index) {
-                i.next();
-                i.add(value);
-                break;
-            }
-            i.next();
-        }
+        ListIterator<T> i = list.listIterator(index + 1);
+        i.add(value);
     }
 
     /**
@@ -93,19 +79,16 @@ public class ListUtils {
      * Удаляет из списка те элементы, которые есть в elements.
      * Запрещено использовать метод List.removeAll().
      *
-     * @param list List
+     * @param list     List
      * @param elements List
-     * @param <T> Type
+     * @param <T>      Type
      */
     public static <T> void removeAll(List<T> list, List<T> elements) {
         ListIterator<T> i = list.listIterator();
         while (i.hasNext()) {
             T value = i.next();
-            for (T element : elements) {
-                if (value.equals(element)) {
-                    i.remove();
-                    break;
-                }
+            if (elements.contains(value)) {
+                i.remove();
             }
         }
     }
