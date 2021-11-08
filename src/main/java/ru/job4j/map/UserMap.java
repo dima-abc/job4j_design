@@ -15,11 +15,11 @@ import java.util.Map;
  */
 public class UserMap {
     public static void main(String[] args) {
-        User user1 = new User("Petr", 2, new GregorianCalendar());
-        User user2 = new User("Petr", 2, new GregorianCalendar());
+        User user1 = new User("Petr", 2, new GregorianCalendar(1985, Calendar.NOVEMBER, 25));
+        User user2 = new User("Petr", 2, new GregorianCalendar(1985, Calendar.NOVEMBER, 25));
         Map<User, Object> map = new HashMap<>();
         map.put(user1, new Object());
         map.put(user2, new Object());
-        System.out.println(map);
+        System.out.println(map.keySet());
     }
 }
