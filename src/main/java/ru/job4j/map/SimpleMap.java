@@ -3,6 +3,7 @@ package ru.job4j.map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * 2.1.5. Map.
@@ -48,15 +49,22 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean put(K key, V value) {
         boolean result = false;
         int index = indexFor(hash(key.hashCode()));
-        if (table[index] != null) {
-            table[index].key = key;
+        if (table[index] != null
+                && table[index].key.equals(key)
+                && !table[index].value.equals(value)) {
             table[index].value = value;
+            modCount++;
             result = true;
         }
-        count++;
-        modCount++;
+        if (table[index] == null) {
+            table[index] = new MapEntry<>(key, value);
+            result = true;
+            count++;
+            modCount++;
+        }
         if (((float) count / capacity) >= 0.75) {
             expand();
+            modCount++;
         }
         return result;
     }
@@ -69,7 +77,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
      */
     private int hash(int hashCode) {
         int h = hashCode;
-        return (hashCode == 0) ? 0 : h ^ (h >>> capacity);
+        return (hashCode == 0) ? 0 : (h ^ (h >>> 16));
     }
 
     /**
@@ -83,16 +91,19 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Расширение размера table.
+     * Расширение размера table = capacity * capacity.
      */
     private void expand() {
         MapEntry<K, V>[] oldTable = table;
-        capacity = capacity * 2;
+        int oldCapacity = capacity;
+        capacity = capacity * capacity;
         table = new MapEntry[capacity];
-        int oldCount = count;
         count = 0;
-        for (int i = 0; i < oldCount; i++) {
-            put(oldTable[i].key, oldTable[i].value);
+        modCount = 0;
+        for (int i = 0; i < oldCapacity; i++) {
+            if (oldTable[i] != null) {
+                put(oldTable[i].key, oldTable[i].value);
+            }
         }
     }
 
@@ -113,6 +124,15 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     /**
+     * Размер коллекции.
+     *
+     * @return Size map.
+     */
+    public int getSize() {
+        return count;
+    }
+
+    /**
      * Удаление значения по ключу.
      *
      * @param key Key.
@@ -125,9 +145,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
         if (table[index] != null) {
             table[index] = null;
             result = true;
+            count--;
+            modCount++;
         }
-        count--;
-        modCount++;
         return result;
     }
 
@@ -139,17 +159,20 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<>() {
-            int expectedCount = modCount;
+            int expectedModCount = modCount;
             int step = 0;
 
             @Override
             public boolean hasNext() {
-                return step < count;
+                while (step < table.length && table[step] == null) {
+                    step++;
+                }
+                return count > 0 && step < table.length;
             }
 
             @Override
             public K next() {
-                if (expectedCount != modCount) {
+                if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
                 if (!hasNext()) {
@@ -173,6 +196,24 @@ public class SimpleMap<K, V> implements Map<K, V> {
         public MapEntry(K key, V value) {
             this.key = key;
             this.value = value;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            MapEntry<?, ?> mapEntry = (MapEntry<?, ?>) o;
+            return Objects.equals(key, mapEntry.key)
+                    && Objects.equals(value, mapEntry.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(key, value);
         }
     }
 }
