@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 /**
  * 2.1.6. Tree
  * 1. Создать элементарную структуру дерева [#1711 #127246]
+ * 2. Добавить метод boolean isBinary() [#1712 #127247]
  * Test
  *
  * @author Dmitry
@@ -60,5 +61,24 @@ public class SimpleTreeTest {
         tree.add(1, 2);
         tree.add(1, 3);
         assertFalse(tree.add(2, 3));
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenTrue() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        assertTrue(tree.isBinary());
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenFalse() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(2, 6);
+        assertFalse(tree.isBinary());
     }
 }

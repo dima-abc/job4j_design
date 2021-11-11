@@ -29,6 +29,8 @@ public interface Tree<E> {
 
     Optional<Node<E>> findBy(E value);
 
+    boolean isBinary();
+
     /**
      * Описывает узел дерева.
      * Узел содержит хранимое значение
@@ -42,23 +44,6 @@ public interface Tree<E> {
 
         public Node(E value) {
             this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            Node<?> node = (Node<?>) o;
-            return Objects.equals(value, node.value) && Objects.equals(children, node.children);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(value, children);
         }
     }
 }

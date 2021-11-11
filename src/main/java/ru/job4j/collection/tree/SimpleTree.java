@@ -3,10 +3,12 @@ package ru.job4j.collection.tree;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 /**
  * 2.1.6. Tree
  * 1. Создать элементарную структуру дерева [#1711 #127246]
+ * 2. Добавить метод boolean isBinary() [#1712 #127247]
  * Основной класс.
  *
  * @param <E> Element
@@ -49,12 +51,32 @@ public class SimpleTree<E> implements Tree<E> {
      */
     @Override
     public Optional<Node<E>> findBy(E value) {
+        return findByPredicate(eNode -> eNode.value.equals(value));
+    }
+
+    /**
+     * Проверка дерева на бинарность.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isBinary() {
+        return findByPredicate(eNode -> eNode.children.size() > 2).isEmpty();
+    }
+
+    /**
+     * Метод поиска в дереве в ширину по заданному условию.
+     *
+     * @param condition Predicate.
+     * @return Optional.
+     */
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            if (el.value.equals(value)) {
+            if (condition.test(el)) {
                 rsl = Optional.of(el);
                 break;
             }
