@@ -13,8 +13,16 @@ import java.util.Set;
  * @since 11.11.2021
  */
 public class Analyze {
-
+    /**
+     * Собирает статистику по двум коллекциям.
+     *
+     * @param previous Предыдущая.
+     * @param current  Настоящая.
+     * @return new Info.
+     */
     public static Info diff(Set<User> previous, Set<User> current) {
-        return new Info(0, 0, 0);
+        int added = previous.size() < current.size() ? current.size() - previous.size() : 0;
+        int deleted = previous.size() > current.size() ? previous.size() - current.size() : 0;
+        return new Info(added, 0, deleted);
     }
 }
