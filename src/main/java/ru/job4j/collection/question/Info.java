@@ -1,5 +1,7 @@
 package ru.job4j.collection.question;
 
+import java.util.Objects;
+
 /**
  * Collection
  * 2.1.7. Контрольные вопросы
@@ -37,5 +39,22 @@ public class Info {
         this.added = added;
         this.changed = changed;
         this.deleted = deleted;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Info info = (Info) o;
+        return added == info.added && changed == info.changed && deleted == info.deleted;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(added, changed, deleted);
     }
 }

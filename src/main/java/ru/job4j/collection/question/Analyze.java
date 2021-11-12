@@ -1,5 +1,8 @@
 package ru.job4j.collection.question;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -21,8 +24,26 @@ public class Analyze {
      * @return new Info.
      */
     public static Info diff(Set<User> previous, Set<User> current) {
-        int added = previous.size() < current.size() ? current.size() - previous.size() : 0;
-        int deleted = previous.size() > current.size() ? previous.size() - current.size() : 0;
-        return new Info(added, 0, deleted);
+        int added = 0;
+        int changed = 0;
+        int deleted = 0;
+        Map<User, User> userMap = setUserToMap(previous);
+        for (User user : current) {
+            Optional<User> mapUser = Optional.ofNullable(userMap.remove(user));
+            if (mapUser.isPresent() && !user.getName().equals(mapUser.get().getName())) {
+                changed++;
+            }
+        }
+        deleted = userMap.size();
+        added = deleted == 0 ? current.size() - previous.size() : 0;
+        return new Info(added, changed, deleted);
+    }
+
+    private static Map<User, User> setUserToMap(Set<User> users) {
+        Map<User, User> map = new HashMap<>();
+        for (User user : users) {
+            map.put(user, user);
+        }
+        return map;
     }
 }
