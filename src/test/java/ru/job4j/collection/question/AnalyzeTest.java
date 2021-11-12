@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class AnalyzeTest {
 
     @Test
-    public void whenDiffThenInfoNotModifi() {
+    public void whenDiffThenInfoNotModification() {
         Set<User> previous = Set.of(new User(1, "u1"),
                 new User(2, "u2"),
                 new User(3, "u3"));
@@ -83,7 +83,7 @@ public class AnalyzeTest {
         );
     }
 
-    /*@Test
+    @Test
     public void whenOneDeleted() {
         User u1 = new User(1, "A");
         User u2 = new User(2, "B");
@@ -94,7 +94,7 @@ public class AnalyzeTest {
                 Analyze.diff(previous, current),
                 is(new Info(0, 0, 1))
         );
-    }*/
+    }
 
     @Test
     public void whenOneAdded() {

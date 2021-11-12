@@ -26,20 +26,28 @@ public class Analyze {
     public static Info diff(Set<User> previous, Set<User> current) {
         int added = 0;
         int changed = 0;
-        int deleted = 0;
-        Map<User, User> userMap = setUserToMap(previous);
+        int deleted;
+        Map<User, User> userMap = toMapSetUser(previous);
         for (User user : current) {
             Optional<User> mapUser = Optional.ofNullable(userMap.remove(user));
             if (mapUser.isPresent() && !user.getName().equals(mapUser.get().getName())) {
                 changed++;
             }
+            if (mapUser.isEmpty()) {
+                added++;
+            }
         }
         deleted = userMap.size();
-        added = deleted == 0 ? current.size() - previous.size() : 0;
         return new Info(added, changed, deleted);
     }
 
-    private static Map<User, User> setUserToMap(Set<User> users) {
+    /**
+     * Помещает Set(User) в Map(User,User).
+     *
+     * @param users Set(User)
+     * @return Map(User, User)
+     */
+    private static Map<User, User> toMapSetUser(Set<User> users) {
         Map<User, User> map = new HashMap<>();
         for (User user : users) {
             map.put(user, user);
