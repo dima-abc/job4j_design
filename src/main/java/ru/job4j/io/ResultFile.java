@@ -1,6 +1,8 @@
 package ru.job4j.io;
 
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -13,13 +15,13 @@ import java.nio.charset.StandardCharsets;
  */
 public class ResultFile {
     public static void main(String[] args) {
-        try (FileOutputStream out = new FileOutputStream("result.txt")) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedOutputStream(
+                        new FileOutputStream("result.txt")
+                ))) {
             for (int i = 1; i < 10; i++) {
-                out.write(System.lineSeparator().getBytes(StandardCharsets.UTF_8));
                 for (int j = 1; j < 10; j++) {
-                    String result = i + " x " + j + " = " + i * j;
-                    out.write(result.getBytes(StandardCharsets.UTF_8));
-                    out.write(System.lineSeparator().getBytes(StandardCharsets.UTF_8));
+                    out.printf("%d X %d = %d%n", i, j, i * j);
                 }
             }
         } catch (Exception e) {
