@@ -53,8 +53,8 @@ public class LogFilter {
     }
 
     public static void main(String[] args) {
-        List<String> logs = filter("log.txt");
-        save(logs, "404.txt");
+        List<String> logs = filter("./data/log.txt");
+        save(logs, "./data/404.txt");
         for (String log : logs) {
             System.out.println(log);
         }
