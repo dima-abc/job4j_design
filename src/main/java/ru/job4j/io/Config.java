@@ -16,7 +16,7 @@ import java.util.StringJoiner;
  */
 public class Config {
     private final String path;
-    private final Map<String, String> value = new HashMap<String, String>();
+    private final Map<String, String> value = new HashMap<>();
 
     /**
      * Конструктор принимает путь к файлу и его имя.
@@ -35,15 +35,15 @@ public class Config {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             for (String line = read.readLine(); line != null; line = read.readLine()) {
                 if (!line.startsWith("#") && line.contains("=")) {
-                    String[] params = line.split("=");
-                    if (params.length < 2 || params.length > 2) {
-                        throw new IllegalArgumentException();
-                    }
+                    String[] params = line.split("\s?[=]\s?");
                     this.value.put(params[0], params[1]);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (this.value.containsKey("")) {
+            throw new IllegalArgumentException();
         }
     }
 

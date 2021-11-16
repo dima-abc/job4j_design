@@ -54,10 +54,10 @@ public class ConfigTest {
         assertThat(config.value("# Login"), is(Matchers.nullValue()));
     }
 
-  /*  @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void whenPairWithIllegalArgumentThenException() {
         String path = "./data/config/pair_with_exception.properties";
         Config config = new Config(path);
         config.load();
-    }*/
+    }
 }
