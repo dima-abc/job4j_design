@@ -46,11 +46,4 @@ public class Analizy {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        Analizy analizy = new Analizy();
-        String source = "./data/analize/logServer.txt";
-        String target = "./data/analize/unavailable.csv";
-        analizy.unavailable(source, target);
-    }
 }
