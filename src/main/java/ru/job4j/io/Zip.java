@@ -16,14 +16,16 @@ import java.util.zip.ZipOutputStream;
  * @since 22.11.2021
  */
 public class Zip {
-    public static void packFiles(List<File> sources, File target) {
-        sources.forEach(s -> packSingleFile(s, target));
+    public static void packFiles(List<Path> sources, Path target) {
+        for (Path source : sources) {
+         packSingleFile(source, target);
+        }
     }
 
-    public static void packSingleFile(File source, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
+    public static void packSingleFile(Path source, Path target) {
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target.toFile().getPath())))) {
+            zip.putNextEntry(new ZipEntry(source.toFile().getPath()));
+            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source.toFile().getPath()))) {
                 zip.write(out.readAllBytes());
             }
         } catch (Exception e) {
@@ -33,9 +35,7 @@ public class Zip {
 
     public static void main(String[] args) throws IOException {
         ArgsName argsName = ArgsName.of(args);
-        List<Path> sources = Search.search(Paths.get(argsName.get("d")), e -> !e.endsWith(argsName.get("e")));
-        packSingleFile(new File("./pom.xml"),
-                new File("./pom.zip")
-        );
+        List<Path> sources = Search.search(Paths.get(argsName.get("d")), p -> !p.endsWith(Paths.get(argsName.get("e"))));
+        packFiles(sources, Paths.get(argsName.get("o")));
     }
 }
