@@ -3,7 +3,6 @@ package ru.job4j.io;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -18,17 +17,6 @@ import java.util.function.Predicate;
  * @since 17.11.2021
  */
 public class Search {
-    public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Param is null. Usage java -jar search.jar FOLDER SEARCH_PARAM");
-        }
-        Path start = Paths.get(args[0]);
-        if (!start.toFile().isDirectory()) {
-            throw new IllegalArgumentException("Param FOLDER is incorrect. Usage java -jar search.jar FOLDER SEARCH_PARAM");
-        }
-        search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
-    }
-
     /**
      * Поиск файла по условию.
      *
