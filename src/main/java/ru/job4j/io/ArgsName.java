@@ -37,12 +37,12 @@ public class ArgsName {
      */
     private void parse(String[] args) {
         if (args.length == 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Parameters is empty. Enter parameters.");
         }
         for (String arg : args) {
             String[] param = arg.split("=");
             if (param.length != 2) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Parameter is not correct. Usage -key=value");
             }
             param[0] = param[0].replaceFirst("-", "");
             values.put(param[0], param[1]);

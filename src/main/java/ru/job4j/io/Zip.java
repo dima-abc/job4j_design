@@ -16,26 +16,42 @@ import java.util.zip.ZipOutputStream;
  * @since 22.11.2021
  */
 public class Zip {
-    public static void packFiles(List<Path> sources, Path target) {
-        for (Path source : sources) {
-         packSingleFile(source, target);
-        }
-    }
 
-    public static void packSingleFile(Path source, Path target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target.toFile().getPath())))) {
-            zip.putNextEntry(new ZipEntry(source.toFile().getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source.toFile().getPath()))) {
-                zip.write(out.readAllBytes());
+    /**
+     * Архивация списка фалов.
+     * @param sources Список файлов.
+     * @param target Имя архива.
+     * @param root Каталог архивирования.
+     */
+    public static void packFiles(List<Path> sources, Path target, Path root) {
+        try (ZipOutputStream zip = new ZipOutputStream(
+                new BufferedOutputStream(
+                        new FileOutputStream(target.toFile())))) {
+            int sizeDirect = root.toAbsolutePath().getNameCount() - 1;
+            for (Path source : sources) {
+                Path fileZip = source.subpath(sizeDirect, source.getNameCount());
+                zip.putNextEntry(new ZipEntry(fileZip.toString()));
+                System.out.printf("File package %s%n", source);
+                try (BufferedInputStream in = new BufferedInputStream(
+                        new FileInputStream(source.toFile()))) {
+                    zip.write(in.readAllBytes());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static void main(String[] args) throws IOException {
         ArgsName argsName = ArgsName.of(args);
-        List<Path> sources = Search.search(Paths.get(argsName.get("d")), p -> !p.endsWith(Paths.get(argsName.get("e"))));
-        packFiles(sources, Paths.get(argsName.get("o")));
+        Path root = Paths.get(argsName.get("d"));
+        Path target = Paths.get(argsName.get("o"));
+        String exclude = argsName.get("e");
+        if (!root.toFile().isDirectory()) {
+            throw new IllegalArgumentException("Folder package is not correct. Usage -d=DIRECTORY_FOLDER");
+        }
+        List<Path> sources = Search.search(root, p -> !p.toString().toLowerCase().endsWith(exclude));
+        packFiles(sources, target, root);
     }
 }

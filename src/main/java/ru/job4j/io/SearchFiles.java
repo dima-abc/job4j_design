@@ -49,7 +49,6 @@ public class SearchFiles implements FileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         if (this.condition.test(file)) {
             this.listFiles.add(file);
-            System.out.println(file);
         }
         return CONTINUE;
     }
