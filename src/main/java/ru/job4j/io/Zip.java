@@ -19,9 +19,10 @@ public class Zip {
 
     /**
      * Архивация списка фалов.
+     *
      * @param sources Список файлов.
-     * @param target Имя архива.
-     * @param root Каталог архивирования.
+     * @param target  Имя архива.
+     * @param root    Каталог архивирования.
      */
     public static void packFiles(List<Path> sources, Path target, Path root) {
         try (ZipOutputStream zip = new ZipOutputStream(
@@ -40,7 +41,6 @@ public class Zip {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) throws IOException {
