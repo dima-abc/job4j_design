@@ -2,6 +2,8 @@ package ru.job4j.io;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -25,10 +27,11 @@ public class CSVReader {
      * @param argsName ArgsName.
      */
     public static void handle(ArgsName argsName) throws Exception {
-        String path = argsName.get("-path");
-        String out = argsName.get("-out");
-        String filter = argsName.get("-filter");
-        if (!new File(path).isFile()) {
+        String path = argsName.get("path");
+        String delimiter = argsName.get("delimiter");
+        String out = argsName.get("out");
+        String filter = argsName.get("filter");
+        if (!new File(path).isFile() || path.isEmpty()) {
             throw new IllegalArgumentException(
                     "Param -path is not correct. Usage -path=File.CSV");
         }
@@ -43,6 +46,9 @@ public class CSVReader {
                     "Param -filter is not correct. "
                             + "Usage -filter=COLUMN1,COLUMN2,...COLUMN3");
         }
+        CSVReader csvReader = new CSVReader();
+        csvReader.loadCSV(path, delimiter, filter);
+        csvReader.stdOut(csvReader.values, out);
     }
 
     /**
@@ -55,29 +61,8 @@ public class CSVReader {
     private void setColumn(String column, String delimiter) {
         int num = 0;
         for (String name : column.split(delimiter)) {
-            String value = name.toUpperCase();
-            this.nameColumn.put(value, num++);
+            this.nameColumn.put(name, num++);
         }
-    }
-
-    /**
-     * Создаем массив столбцов Filter и добавляем в values.
-     * -filter=a,b...,n.
-     *
-     * @param filter String.
-     * @return Filter[].
-     */
-    private String[] addColumnFilter(String filter) {
-        String[] result = filter.toUpperCase().split(",");
-        for (String name : result) {
-            if (!this.nameColumn.containsKey(name)) {
-                throw new IllegalArgumentException("Param -filter is not correct. "
-                        + "Usage -filter=COLUMN1,COLUMN2,...COLUMN3");
-            }
-            this.values.add(name);
-        }
-        this.values.add(System.lineSeparator());
-        return result;
     }
 
     /**
@@ -87,15 +72,18 @@ public class CSVReader {
      * @param delimiter String.
      * @param filter    String.
      */
-    private void loadCSV(File path, String delimiter, String filter) {
-        try (Scanner scanner = new Scanner(path)) {
-            setColumn(scanner.nextLine(), delimiter);
-            String[] nameFilter = addColumnFilter(filter);
+    private void loadCSV(String path, String delimiter, String filter) {
+        try (Scanner scanner = new Scanner(new File(path), StandardCharsets.UTF_8)) {
+            String[] nameFilter = filter.split(",");
             while (scanner.hasNextLine()) {
-                String[] value = scanner.nextLine().split(delimiter);
+                String line = scanner.nextLine();
+                String[] values = line.split(delimiter);
+                if (this.nameColumn.isEmpty()) {
+                    setColumn(line, delimiter);
+                }
                 StringJoiner joiner = new StringJoiner(delimiter);
                 for (String name : nameFilter) {
-                    joiner.add(value[nameColumn.get(name)]);
+                    joiner.add(values[nameColumn.get(name)]);
                 }
                 this.values.add(joiner.toString());
                 this.values.add(System.lineSeparator());
@@ -108,26 +96,26 @@ public class CSVReader {
     /**
      * Вывод результата на консоль
      * -out=stdout
+     * -out=File
      *
      * @param list List.
+     * @param path String
      */
-    public void stdOut(List<String> list) {
-        list.forEach(System.out::print);
-    }
-
-    /**
-     * Вывод результата в файл.
-     * -out=FileName
-     *
-     * @param list List
-     * @param path File
-     */
-    public void stdOut(List<String> list, String path) {
+    public void stdOut(List<String> list, String path) throws IOException {
+        if (path.equals("stdout")) {
+            list.forEach(System.out::print);
+            return;
+        }
         try (PrintWriter out = new PrintWriter(
                 new FileWriter(path, StandardCharsets.UTF_8, true))) {
             list.forEach(out::print);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        ArgsName argsName = ArgsName.of(args);
+        CSVReader.handle(argsName);
     }
 }
