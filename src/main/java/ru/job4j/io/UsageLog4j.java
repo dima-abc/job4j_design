@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
  * 1. Log4j. Логирование системы.[#95335#127253].
  * 2. Simple Loggin Facade 4 Java. [#268849 #127252]
  * 3. Slf4j - вывод переменных.
+ * 4. Slf4j - вывод exception. [#268853 #127254]
  *
  * @author Dmitry
  * @since 30.11.2021
@@ -35,6 +36,10 @@ public class UsageLog4j {
         LOG.debug(
                 "User info byte float fifth : {}, double sixth : {}, char seventh : {}, boolean eighth : {}",
                 fifth, sixth, seventh, eighth);
-
+        try {
+            throw new Exception("Not supported code");
+        } catch (Exception e) {
+            LOG.error("Exception in log example", e);
+        }
     }
 }

@@ -1,22 +1,27 @@
 package ru.job4j.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 2.2.2. Socket
  * 0. Что такое Socket?
  * 1.Бот [#7921#127268]
+ * 4.Slf4j-вывод exception.[#268853#127254]
+ *
  * @author Dmitry
  * @since 29.11.2021
  */
 public class EchoServer {
+    private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
+
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
             while (!server.isClosed()) {
@@ -41,6 +46,8 @@ public class EchoServer {
                     out.flush();
                 }
             }
+        } catch (IOException e) {
+            LOG.error("Exception in log example", e);
         }
     }
 }
