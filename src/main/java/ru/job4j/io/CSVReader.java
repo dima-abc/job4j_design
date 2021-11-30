@@ -14,7 +14,7 @@ import java.util.*;
  * Содержимое выводится на консоль или в файл.
  *
  * @author Dima_Nout
- * @version 1
+ * @version 2 исправление equals с константой.
  * @since 29.11.2021.
  */
 public class CSVReader {
@@ -31,11 +31,11 @@ public class CSVReader {
         String delimiter = argsName.get("delimiter");
         String out = argsName.get("out");
         String filter = argsName.get("filter");
-        if (!new File(path).isFile() || path.isEmpty()) {
+        if (path.isEmpty() || !new File(path).isFile()) {
             throw new IllegalArgumentException(
                     "Param -path is not correct. Usage -path=File.CSV");
         }
-        if (!out.equals("stdout") && !new File(out).isFile()) {
+        if (!"stdout".equals(out) && !new File(out).isFile()) {
             throw new IllegalArgumentException(
                     "Param -out is not correct. "
                             + "Usage -out=stdout for output to the console, "
@@ -102,7 +102,7 @@ public class CSVReader {
      * @param path String
      */
     public void stdOut(List<String> list, String path) throws IOException {
-        if (path.equals("stdout")) {
+        if ("stdout".equals(path)) {
             list.forEach(System.out::print);
             return;
         }
