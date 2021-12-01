@@ -35,20 +35,34 @@ public class Contact implements Serializable {
                 + ", phone='" + phone + '\'' + '}';
     }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        final Contact contact = new Contact(123489, "+7 (111) 111-11-11");
-        System.out.println(contact);
-        File tempFile = Files.createTempFile(null, null).toFile();
-        try (FileOutputStream fos = new FileOutputStream(tempFile);
-             ObjectOutputStream oos =
-                     new ObjectOutputStream(fos)) {
+    /**
+     * Метод сериализует объект Contact в файл.
+     *
+     * @param serialFile File
+     * @param contact    Contact
+     */
+    public void serial(File serialFile, Contact contact) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream(serialFile))) {
             oos.writeObject(contact);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        try (FileInputStream fis = new FileInputStream(tempFile);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-            final Contact contactFromFile = (Contact) ois.readObject();
-            System.out.println(contactFromFile);
+    /**
+     * Метод десериализует обьект Contact из файла
+     *
+     * @param serialFile File
+     * @return Contact.
+     */
+    public Contact deSerial(File serialFile) {
+        Contact result = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(serialFile))) {
+            result = (Contact) ois.readObject();
+        } catch (IOException | ClassNotFoundException i) {
+            i.printStackTrace();
         }
+        return result;
     }
 }
