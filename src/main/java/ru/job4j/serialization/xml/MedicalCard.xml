@@ -1,0 +1,14 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<!-- 2.2.4. Сериализация. 3. Формат XML [#313165] 02.12.2021 -->
+<!-- Модель данных использовал из задания по Json "Patient" "MedicalCard" -->
+<medicalCard>
+    <patient name="Valentin" age="42"/>
+    <smoking>true</smoking>
+    <weight>70</weight>
+    <medProces>
+        <medProc>Inhalation</medProc>
+        <medProc>Dropper</medProc>
+        <medProc>Flushing</medProc>
+    </medProces>
+    <group>a</group>
+</medicalCard>
