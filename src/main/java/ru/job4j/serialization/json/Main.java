@@ -3,22 +3,30 @@ package ru.job4j.serialization.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+
 /**
  * 2.2.4. Сериализация
  * 2. Формат JSON [#313164]
  * Создание Json
+ * 4. JAXB. Преобразование XML в POJO. [#315063]
+ * Сериализовать / десериализовать сущности с помощью JAXB
  *
  * @author Dmitry
- * @since 01.12.2021
+ * @since 05.12.2021
  */
 public class Main {
-    public static void main(String[] args) {
-        final Person person = new Person(false, 30, new Contact("11-111"),
+    public static void main(String[] args) throws Exception {
+        Person person = new Person(false, 30, new Contact("11-111"),
                 new String[]{"Worker", "Married"});
-        final Gson gson = new GsonBuilder().create();
-        System.out.println(person);
-        System.out.println(gson.toJson(person));
-        final String personJson =
+        Gson gson = new GsonBuilder().create();
+        String personJson =
                 "{"
                         + "\"sex\":false,"
                         + "\"age\":35,"
@@ -29,8 +37,28 @@ public class Main {
                         + "\"statuses\":"
                         + "[\"Student\",\"Free\"]"
                         + "}";
-        final Person personMod = gson.fromJson(personJson, Person.class);
-        System.out.println(personMod);
-        System.out.println(personJson);
+        Person personMod = gson.fromJson(personJson, Person.class);
+    }
+
+    public static String marshallerPerson(Person person) throws JAXBException, IOException {
+        JAXBContext context = JAXBContext.newInstance(Person.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        String resultXML;
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(person, writer);
+            resultXML = writer.getBuffer().toString();
+        }
+        return resultXML;
+    }
+
+    public static Person unmarshallerPerson(String xml) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(Person.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        Person result;
+        try (StringReader reader = new StringReader(xml)) {
+            result = (Person) unmarshaller.unmarshal(reader);
+        }
+        return result;
     }
 }

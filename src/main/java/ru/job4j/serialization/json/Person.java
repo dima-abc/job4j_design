@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.*;
  * Модель данных Person.
  *
  * @author Dmitry
- * @since 02.12.2021
+ * @since 05.12.2021
  */
 @XmlRootElement(name = "person")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,10 +20,10 @@ public class Person {
     private boolean sex;
     @XmlAttribute
     private int age;
-    @XmlAttribute
+    @XmlElement
     private Contact contact;
     @XmlElementWrapper(name = "statuses")
-    @XmlElement(name = "statuses")
+    @XmlElement(name = "status")
     private String[] statuses;
 
     public Person() {

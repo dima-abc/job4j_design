@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Модель данных Contact.
  *
  * @author Dmitry
- * @since 02.12.2021
+ * @since 05.12.2021
  */
 
 @XmlRootElement(name = "contact")
@@ -18,8 +18,7 @@ public class Contact {
     @XmlAttribute
     private String phone;
 
-    public Contact() {
-    }
+    public Contact() { }
 
     public Contact(String phone) {
         this.phone = phone;
