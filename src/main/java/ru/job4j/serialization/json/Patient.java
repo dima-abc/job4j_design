@@ -9,9 +9,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Задание. Придумать модель, описать в JSON, создать JSON и Обратно.
  * 4. JAXB. Преобразование XML в POJO. [#315063]
  * Сериализовать / десериализовать сущности с помощью JAXB
+ * 5. Преобразование JSON в POJO. JsonObject [#315064]
  *
  * @author Dmitry
- * @since 05.12.2021
+ * @since 06.12.2021
  */
 @XmlRootElement(name = "patient")
 public class Patient {
@@ -26,6 +27,14 @@ public class Patient {
     public Patient(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     @Override

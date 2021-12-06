@@ -1,5 +1,8 @@
 package ru.job4j.serialization.json;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -16,9 +19,10 @@ import java.util.Arrays;
  * Задание. Придумать модель, описать в JSON, создать JSON и Обратно.
  * 4. JAXB. Преобразование XML в POJO. [#315063]
  * Сериализовать / десериализовать сущности с помощью JAXB
+ * 5. Преобразование JSON в POJO. JsonObject [#315064]
  *
  * @author Dmitry
- * @since 05.12.2021
+ * @since 06.12.2021
  */
 @XmlRootElement(name = "medicalCard")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -44,6 +48,26 @@ public class MedicalCard {
         this.weight = weight;
         this.medProc = medProc;
         this.group = group;
+    }
+
+    public Patient getPatient() {
+        return this.patient;
+    }
+
+    public Boolean getSmoking() {
+        return smoking;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public String[] getMedProc() {
+        return medProc;
+    }
+
+    public char getGroup() {
+        return group;
     }
 
     @Override
