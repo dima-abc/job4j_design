@@ -28,7 +28,7 @@ public class ArgsSearch {
     private void parse(String[] args) {
         if (args.length != 4) {
             throw new IllegalArgumentException("Enter the missing parameters."
-                    + "Format: -d=DIRECTORY -n=SEARCH -t=SEARCH_PARAM -o=SAVE_FILE_RESULT.TXT");
+                    + "Format: -d=DIRECTORY -n=NAME_SEARCH -t=SEARCH_PARAM -o=SAVE_FILE_RESULT.TXT");
         }
         for (String arg : args) {
             String[] param = arg.split("=");
