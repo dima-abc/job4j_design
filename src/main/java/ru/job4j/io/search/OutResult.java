@@ -1,9 +1,7 @@
 package ru.job4j.io.search;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -24,9 +22,10 @@ public class OutResult {
      */
     public void saveFile(List<Path> pathList, Path file) {
         try (PrintWriter writer = new PrintWriter(
-                new BufferedOutputStream(
-                        new FileOutputStream(file.toFile())))) {
+                new BufferedWriter(
+                        new FileWriter(file.toFile(), StandardCharsets.UTF_8)))) {
             pathList.forEach(p -> writer.println(p.toAbsolutePath().normalize()));
+            System.out.printf("File save: %s%n", file.toAbsolutePath().normalize());
         } catch (IOException e) {
             e.printStackTrace();
         }

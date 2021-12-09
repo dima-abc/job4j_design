@@ -2,6 +2,7 @@ package ru.job4j.io.search;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * 2.2.5. Контрольные вопросы
@@ -42,8 +43,14 @@ public class ArgsSearch {
 
     /**
      * Возвращаем параметры по ключу.
+     *
+     * @param key String.
+     * @return values.
      */
     public String get(String key) {
+        if (!values.containsKey(key)) {
+            throw new NoSuchElementException("The " + key + " parameter was not found.");
+        }
         return values.get(key);
     }
 
