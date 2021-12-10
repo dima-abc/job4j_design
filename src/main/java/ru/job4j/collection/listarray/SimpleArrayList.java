@@ -1,6 +1,10 @@
 package ru.job4j.collection.listarray;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * 2.1.3. List
