@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import ru.job4j.serialization.json.A;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +13,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * 2.2.5. Контрольные вопросы

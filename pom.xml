@@ -30,8 +30,8 @@
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1.1</version>
+            <artifactId>javax.activation-api</artifactId>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
@@ -87,16 +87,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
                             <finalName>find</finalName>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">

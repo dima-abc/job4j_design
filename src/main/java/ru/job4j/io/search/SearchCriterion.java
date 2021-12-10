@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.StringJoiner;
 
 /**
  * 2.2.5. Контрольные вопросы
@@ -14,7 +15,7 @@ import java.nio.file.Path;
  * @since 07.12.2021
  */
 public class SearchCriterion {
-    private static final StringBuilder HELP = new StringBuilder("Help search file of criterion");
+    private static final StringJoiner HELP = new StringJoiner(System.lineSeparator());
     private static final String MASK = "mask";
     private static final String NAME = "name";
     private static final String REGEX = "regex";
@@ -24,27 +25,14 @@ public class SearchCriterion {
     private static String fileResult;
 
     private static void getHelp() {
-        String sl = System.lineSeparator();
-        HELP.append(sl);
-        HELP.append("Listing param:");
-        HELP.append(sl);
-        HELP.append("-d=START_DIRECTORY");
-        HELP.append(sl);
-        HELP.append("Search term:");
-        HELP.append(sl);
-        HELP.append("-n=MASK_FILE('?' zero or one char, '*' zero or more char) -t=mask");
-        HELP.append(sl);
-        HELP.append("or");
-        HELP.append(sl);
-        HELP.append("-n=NAME_FILE(Full file name match) -t=name");
-        HELP.append(sl);
-        HELP.append("or");
-        HELP.append(sl);
-        HELP.append("-n=REGEX(Search for a pattern with many occurrences.) -t=regex");
-        HELP.append(sl);
-        HELP.append("Save result: ");
-        HELP.append(sl);
-        HELP.append("-o=FILE_RESULT.TXT");
+        HELP.add("Listing param:");
+        HELP.add("-d=START_DIRECTORY");
+        HELP.add("Search term:");
+        HELP.add("-n=MASK_FILE('?' zero or one char, '*' zero or more char) -t=mask");
+        HELP.add("-n=NAME_FILE(Full file name match) -t=name");
+        HELP.add("-n=REGEX(Search for a pattern with many occurrences.) -t=regex");
+        HELP.add("Save result: ");
+        HELP.add("-o=FILE_RESULT.TXT");
         System.out.println(HELP);
     }
 

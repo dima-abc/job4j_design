@@ -32,7 +32,8 @@ public class DispatchPattern {
      */
     private BiFunction<Path, String, Boolean> toMask() {
         return (p, s) -> {
-            s = s.charAt(0) == '*' ? s.replaceAll("[*]", ".*") : s.replaceAll("[?]", ".?");
+            s = s.replaceAll("[*]", ".*");
+            s = s.replaceAll("[?]", ".?");
             Pattern pattern = Pattern.compile(s);
             Matcher matcher = pattern.matcher(p.getFileName().toString());
             return matcher.matches();
