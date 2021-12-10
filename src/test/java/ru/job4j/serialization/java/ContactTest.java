@@ -1,6 +1,5 @@
 package ru.job4j.serialization.java;
 
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
