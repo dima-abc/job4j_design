@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.StringJoiner;
 
 /**
  * 2.2.5. Контрольные вопросы
@@ -15,7 +14,6 @@ import java.util.StringJoiner;
  * @since 07.12.2021
  */
 public class SearchCriterion {
-    private static final StringJoiner HELP = new StringJoiner(System.lineSeparator());
     private static final String MASK = "mask";
     private static final String NAME = "name";
     private static final String REGEX = "regex";
@@ -25,15 +23,17 @@ public class SearchCriterion {
     private static String fileResult;
 
     private static void getHelp() {
-        HELP.add("Listing param:");
-        HELP.add("-d=START_DIRECTORY");
-        HELP.add("Search term:");
-        HELP.add("-n=MASK_FILE('?' zero or one char, '*' zero or more char) -t=mask");
-        HELP.add("-n=NAME_FILE(Full file name match) -t=name");
-        HELP.add("-n=REGEX(Search for a pattern with many occurrences.) -t=regex");
-        HELP.add("Save result: ");
-        HELP.add("-o=FILE_RESULT.TXT");
-        System.out.println(HELP);
+        String help = String.join(System.lineSeparator(),
+                "Listing param:",
+                "-d=START_DIRECTORY",
+                "Search term:",
+                "-n=MASK_FILE('?' zero or one char, '*' zero or more char) -t=mask",
+                "-n=NAME_FILE(Full file name match) -t=name",
+                "-n=REGEX(Search for a pattern with many occurrences.) -t=regex",
+                "Save result: ",
+                "-o=FILE_RESULT.TXT"
+        );
+        System.out.println(help);
     }
 
     /**
