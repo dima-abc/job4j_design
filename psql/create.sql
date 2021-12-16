@@ -27,13 +27,13 @@ create table category(
 create table users(
 	id serial primary key,
 	user_name varchar(255),
-	role_id int references roles(id),
+	role_id int references roles(id)
 );
 
 create table item(
 	id serial primary key,
 	item_name varchar(255),
-	user_id int references users(id)
+	user_id int references users(id),
 	category_id int references category(id),
 	state_id int references states(id)
 );
