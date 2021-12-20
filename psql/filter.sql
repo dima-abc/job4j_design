@@ -11,7 +11,7 @@ CREATE TABLE product(
 	price NUMERIC(10,2)
 );
 
-INSERT INTO type(name) VALUES ('СЫР'),('СМЕТАНА'),('ТВОРОГ'),('МОЛОКО')('МОРОЖЕНОЕ');
+INSERT INTO type(name) VALUES ('СЫР'),('СМЕТАНА'),('ТВОРОГ'),('МОЛОКО'),('МОРОЖЕНОЕ');
 INSERT INTO product(name, type_id, expired_date, price) VALUES
 ('Пармезан', 1, '01.03.2022', 500.50),
 ('Ламбер', 1, '19.12.2021', 250.00),
@@ -52,7 +52,9 @@ WHERE pr.expired_date<CURRENT_DATE
 ORDER BY pr.expired_date;
 
 /*4 запрос, который выводит самый дорогой продукт*/
-SELECT max(price) FROM product;
+SELECT DISTINCT pr.name AS Продукт, pr.price AS Цена
+FROM Product AS pr
+WHERE pr.price=(SELECT max(p.price) FROM Product AS p);
 
 /*5 запрос, который выводит для каждого типа количество продуктов к нему принадлежащих. В виде имя_типа, количество*/
 SELECT tp.name AS имя_типа, COUNT(pr.type_id) AS количество FROM product AS pr
