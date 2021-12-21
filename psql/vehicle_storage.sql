@@ -68,4 +68,4 @@ where a.engine_id is null;
 select * from transmission t
 left join auto a
 on e.id=a.trans_id
-where a.transe_id is null;
+where a.trans_id is null;
