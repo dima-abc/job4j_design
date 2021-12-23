@@ -11,6 +11,14 @@ sudo: false
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
+# Start PostgreSQL
+services:
+  - postgresql
+
+# Create a database
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
 # Отправлять уведомление на почту youremail@smtp.ru (Изменить на свою) если сборка упала
 notifications:
   email:

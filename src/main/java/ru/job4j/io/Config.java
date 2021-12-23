@@ -19,11 +19,9 @@ public class Config {
     private final Map<String, String> value = new HashMap<>();
 
     /**
-     * Конструктор принимает путь к файлу и его имя.
-     *
-     * @param path Path file.
+     * Конструктор по умолчанию не доступен.
      */
-    public Config(String path) {
+    private Config(String path) {
         this.path = path;
     }
 
@@ -31,7 +29,7 @@ public class Config {
      * Считывает все ключи в карту values.
      * Важно в файле могут быть пустые строки и комментарии их нужно пропускать.
      */
-    public void load() {
+    private void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             for (String line = read.readLine(); line != null; line = read.readLine()) {
                 if (!line.startsWith("#") && line.contains("=")) {
@@ -53,8 +51,14 @@ public class Config {
      * @param key Key.
      * @return Value.
      */
-    public String value(String key) {
+    public String get(String key) {
         return value.get(key);
+    }
+
+    public static Config of(String path) {
+        Config config = new Config(path);
+        config.load();
+        return config;
     }
 
     @Override
@@ -66,9 +70,5 @@ public class Config {
             e.printStackTrace();
         }
         return out.toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Config("./data/config/app.properties"));
     }
 }
