@@ -42,7 +42,9 @@ insert into transmission(name) values ('6 MT'), ('7 МТ'), ('5 МТ'),
 
 insert into auto(name, body_id, engine_id, trans_id)
 values ('Lada Vesta', 1, 4, 2), ('Ford focus', 3, 8, 4), 
-('KIA CEED', 3, 2, 4), ('SKODA RAPID', 4, 3, 5);
+('Lada Vesta', 3, 2, 4), ('SKODA RAPID', 4, 3, 5),
+('Lada Vesta', 1, 2, 2), ('Lada Vesta', 3, 8, 4), 
+('KIA CEED', 3, 2, 4), ('SKODA RAPID', 4, 2, 5);
 
 /*2. Создать SQL запросы:*/
 /*2.1 Вывести список всех машин и все привязанные к ним детали.*/
