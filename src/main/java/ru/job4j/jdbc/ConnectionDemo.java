@@ -17,6 +17,8 @@ public class ConnectionDemo {
         String url = config.get("url");
         String login = config.get("login");
         String password = config.get("password");
+        String driver = config.get("driver");
+        Class.forName(driver);
         try (Connection connection = DriverManager.getConnection(url, login, password)) {
             DatabaseMetaData metaData = connection.getMetaData();
             System.out.println(metaData.getUserName());
