@@ -25,11 +25,9 @@ public class TableEditor implements AutoCloseable {
      * и имя файла *.properties,
      * файл.properties должен находится в каталоге resources.
      *
-     * @param properties     new Properties.
      * @param fileProperties resources/FILE.properties.
      */
-    public TableEditor(Properties properties, String fileProperties) throws Exception {
-        this.properties = properties;
+    public TableEditor(String fileProperties) throws Exception {
         this.fileProperties = fileProperties;
         loadProperties();
         initConnection();
@@ -39,6 +37,7 @@ public class TableEditor implements AutoCloseable {
      * Загружает параметры из FILE.properties в Properties.class.
      */
     private void loadProperties() {
+        properties = new Properties();
         ClassLoader loader = TableEditor.class.getClassLoader();
         try (InputStream io = loader.getResourceAsStream(this.fileProperties)) {
             this.properties.load(io);
