@@ -27,5 +27,4 @@ public class TableEditorTest {
         tableEditor.dropTable("table1");
         tableEditor.close();
     }
-
 }
