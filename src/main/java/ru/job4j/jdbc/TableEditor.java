@@ -147,16 +147,17 @@ public class TableEditor implements AutoCloseable {
     /**
      * Возвращает созданную таблицу из базы данных.
      *
+     * @param connection Connection.
      * @param tableName String.
      * @return String.
      * @throws Exception exception.
      */
-    public String getTableScheme(String tableName) throws Exception {
+    public static String getTableScheme(Connection connection, String tableName) throws Exception {
         var rowSeparator = "-".repeat(30).concat(System.lineSeparator());
         var header = String.format("%-15s|%-15s%n", "NAME", "TYPE");
         var buffer = new StringJoiner(rowSeparator, rowSeparator, rowSeparator);
         buffer.add(header);
-        try (var statement = this.connection.createStatement()) {
+        try (var statement = connection.createStatement()) {
             var selection = statement.executeQuery(String.format(
                     "select * from %s limit 1", tableName
             ));
@@ -173,7 +174,7 @@ public class TableEditor implements AutoCloseable {
     /**
      * Явное закрытие соединение с базой.
      *
-     * @throws Exception exception.
+     * @throws Exception exception
      */
     @Override
     public void close() throws Exception {
