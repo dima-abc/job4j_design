@@ -31,6 +31,7 @@ public class TableEditor implements AutoCloseable {
     public TableEditor(Properties properties, String fileProperties) throws Exception {
         this.properties = properties;
         this.fileProperties = fileProperties;
+        loadProperties();
         initConnection();
     }
 
@@ -50,7 +51,6 @@ public class TableEditor implements AutoCloseable {
      * Создание Connection.
      */
     private void initConnection() throws Exception {
-        loadProperties();
         String driver = this.properties.getProperty("driver");
         String url = this.properties.getProperty("url");
         String lorin = this.properties.getProperty("login");
@@ -60,35 +60,42 @@ public class TableEditor implements AutoCloseable {
     }
 
     /**
+     * Создание statement для выполнения любого запросы.
+     *
+     * @param sql String.
+     */
+    private void getStatement(String sql) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Создает пустую таблицу без столбцов с указанным именем;
      *
      * @param tableName String.
-     * @throws Exception exception.
      */
-    public void createTable(String tableName) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "CREATE TABLE IF NOT EXISTS %s();",
-                    tableName
-            );
-            statement.execute(sql);
-        }
+    public void createTable(String tableName) {
+        String sql = String.format(
+                "CREATE TABLE IF NOT EXISTS %s();",
+                tableName
+        );
+        getStatement(sql);
     }
 
     /**
      * Удаляет таблицу по указанному имени;
      *
      * @param tableName String.
-     * @throws Exception exception.
      */
-    public void dropTable(String tableName) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "DROP TABLE %s;",
-                    tableName
-            );
-            statement.execute(sql);
-        }
+    public void dropTable(String tableName) {
+        String sql = String.format(
+                "DROP TABLE %s;",
+                tableName
+        );
+        getStatement(sql);
     }
 
     /**
@@ -97,16 +104,13 @@ public class TableEditor implements AutoCloseable {
      * @param tableName  String.
      * @param columnName String.
      * @param type       String.
-     * @throws Exception exception.
      */
-    public void addColumn(String tableName, String columnName, String type) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "ALTER TABLE %s ADD COLUMN %s %s;",
-                    tableName, columnName, type
-            );
-            statement.execute(sql);
-        }
+    public void addColumn(String tableName, String columnName, String type) {
+        String sql = String.format(
+                "ALTER TABLE %s ADD COLUMN %s %s;",
+                tableName, columnName, type
+        );
+        getStatement(sql);
     }
 
     /**
@@ -114,16 +118,13 @@ public class TableEditor implements AutoCloseable {
      *
      * @param tableName String.
      * @param column    String.
-     * @throws Exception exception.
      */
-    public void dropColumn(String tableName, String column) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "ALTER TABLE %s DROP COLUMN %s;",
-                    tableName, column
-            );
-            statement.execute(sql);
-        }
+    public void dropColumn(String tableName, String column) {
+        String sql = String.format(
+                "ALTER TABLE %s DROP COLUMN %s;",
+                tableName, column
+        );
+        getStatement(sql);
     }
 
     /**
@@ -132,23 +133,20 @@ public class TableEditor implements AutoCloseable {
      * @param table         String.
      * @param columnName    String.
      * @param newColumnName String.
-     * @throws Exception exception.
      */
-    public void renameColumn(String table, String columnName, String newColumnName) throws Exception {
-        try (Statement statement = connection.createStatement()) {
-            String sql = String.format(
-                    "ALTER TABLE %s RENAME COLUMN %s TO %s;",
-                    table, columnName, newColumnName
-            );
-            statement.execute(sql);
-        }
+    public void renameColumn(String table, String columnName, String newColumnName) {
+        String sql = String.format(
+                "ALTER TABLE %s RENAME COLUMN %s TO %s;",
+                table, columnName, newColumnName
+        );
+        getStatement(sql);
     }
 
     /**
      * Возвращает созданную таблицу из базы данных.
      *
      * @param connection Connection.
-     * @param tableName String.
+     * @param tableName  String.
      * @return String.
      * @throws Exception exception.
      */
