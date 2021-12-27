@@ -29,41 +29,6 @@ public class PrepareStatementDemo {
     }
 
     /**
-     * Создает пустую таблицу.
-     *
-     * @param nameTable String.
-     */
-    public void createTable(String nameTable) {
-        try (PreparedStatement statement =
-                     connection.prepareStatement(
-                             "create table if not exist ?")) {
-            statement.setString(1, nameTable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Добавление столбца в таблицу.
-     *
-     * @param nameTable  String.
-     * @param nameColumn String.
-     * @param type       String.
-     */
-    public void addColumn(String nameTable, String nameColumn, String type) {
-        try (PreparedStatement statement =
-                     connection.prepareStatement(
-                             "ALERT TABLE ? ADD COLUMN ? ?")) {
-            statement.setString(1, nameTable);
-            statement.setString(2, nameColumn);
-            statement.setString(3, type);
-            statement.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Вставка данных в таблицу cities.
      *
      * @param city City
