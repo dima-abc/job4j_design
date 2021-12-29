@@ -42,8 +42,8 @@ public class ImportDB {
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().map(line -> line.split("\\s*[;]\\s*"))
                     .filter(spammer -> spammer.length == 2
-                            && !spammer[0].equals("")
-                            && !spammer[1].equals(""))
+                            && !spammer[0].isEmpty()
+                            && !spammer[1].isEmpty())
                     .forEach(spammer -> users.add(new User(spammer[0].strip(), spammer[1].strip())));
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,6 +122,6 @@ public class ImportDB {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, "./data/dump.txt");
-        db.save(db.load());
+        db.save(db.loadMy());
     }
 }
