@@ -64,7 +64,7 @@ public class ImportDB {
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             for (String line = rd.readLine(); line != null; line = rd.readLine()) {
                 String[] lines = line.split("\\s*[;]\\s*");
-                if (!(lines.length == 2) || (lines[0].equals("") || lines[1].equals(""))) {
+                if (lines.length != 2 || lines[0].isEmpty() || lines[1].isEmpty()) {
                     throw new IllegalArgumentException("File \"" + dump + "\" is invalid");
                 }
                 users.add(new User(lines[0].strip(), lines[1].strip()));
