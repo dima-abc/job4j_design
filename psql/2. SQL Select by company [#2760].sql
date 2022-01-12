@@ -38,8 +38,6 @@ select c.name as COMPANY_NAME, count(*) as COUNT_PERSON from company c
 inner join person p
 on p.company_id=c.id
 group by c.name
-having count(p.id) = (select count(*) from person a
-                        inner join person b
-                        on a.company_id=b.company_id
-                        group by a.id
-                        order by a.id desc limit 1)
+having count(p.id) = (select count(company_id) from person a
+                        group by a.company_id
+                        order by a.company_id desc limit 1)
