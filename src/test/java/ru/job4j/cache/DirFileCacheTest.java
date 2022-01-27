@@ -20,7 +20,7 @@ public class DirFileCacheTest {
         String file = "cacheTest.txt";
         AbstractCache<String, String> dirFileCache = new DirFileCache(dir);
         String result = dirFileCache.load(file);
-        String expected = "cache:cache:cache";
+        String expected = "cache:\r\ncache:\r\ncache";
         assertThat(result, is(expected));
     }
 

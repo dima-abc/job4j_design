@@ -18,7 +18,7 @@ public class LoadDirDialog implements Dialog {
     public boolean execute(Input input, Emulator emulator) {
         System.out.println("=== Load file content into cache ===");
         String key = input.askStr("Enter load file: ");
-        emulator.getAbstractCache().load(key);
+        emulator.getAbstractCache().get(key);
         System.out.println("Load file: " + key);
         return true;
     }

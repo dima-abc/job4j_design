@@ -22,12 +22,17 @@ public abstract class AbstractCache<K, V> {
     }
 
     public V get(K key) {
-        SoftReference<V> softReference = cache.get(key);
-        return softReference != null ? softReference.get() : null;
+        V result = cache.getOrDefault(key, new SoftReference<>(null)).get();
+        if (result == null) {
+            result = load(key);
+            put(key, result);
+        }
+        return result;
     }
 
     /**
      * Фабричный метод для загрузки данных в КЭШ.
+     *
      * @param key K
      * @return V
      */
