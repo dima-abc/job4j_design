@@ -14,6 +14,16 @@ import java.util.List;
  */
 public class MaxMin {
 
+    private <T> T get(List<T> value, Comparator<T> comparator) {
+        T max = value.get(0);
+        for (T element : value) {
+            if (comparator.compare(max, element) < 0) {
+                max = element;
+            }
+        }
+        return max;
+    }
+
     /**
      * Поиск мах
      *
@@ -23,13 +33,7 @@ public class MaxMin {
      * @return max.
      */
     public <T> T max(List<T> value, Comparator<T> comparator) {
-        T max = value.get(0);
-        for (T element : value) {
-            if (comparator.compare(max, element) < 0) {
-                max = element;
-            }
-        }
-        return max;
+        return get(value, comparator);
     }
 
     /**
@@ -41,6 +45,6 @@ public class MaxMin {
      * @return min
      */
     public <T> T min(List<T> value, Comparator<T> comparator) {
-        return max(value, comparator.reversed());
+        return get(value, comparator.reversed());
     }
 }
