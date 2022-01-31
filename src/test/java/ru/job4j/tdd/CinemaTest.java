@@ -3,9 +3,9 @@ package ru.job4j.tdd;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -39,15 +39,45 @@ public class CinemaTest {
         assertThat(sessions, is(List.of(new Session3D())));
     }
 
-    @Test
-    public void find() {
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
+    public void whenByEqualsTwoTicket() {
+        Account account = new AccountCinema();
+        Account account1 = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, Calendar.SEPTEMBER, 12, 21, 0);
+        Ticket ticket = cinema.buy(account, 3, 3, date);
+        Ticket ticket1 = cinema.buy(account1, 3, 3, date);
     }
 
-    @Test
-    public void buy() {
+    @Ignore
+    @Test(expected = NoSuchElementException.class)
+    public void whenByTicketDataFail() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(1945, Calendar.MAY, 9, 0, 43);
+        Ticket ticket = cinema.buy(account, 5, 5, date);
     }
 
-    @Test
-    public void add() {
+    @Ignore
+    @Test(expected = NoSuchElementException.class)
+    public void whenByTicketRowFail() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, Calendar.SEPTEMBER, 12, 21, 0);
+        Ticket ticket = cinema.buy(account, 100500, 3, date);
+    }
+
+    @Ignore
+    @Test(expected = NoSuchElementException.class)
+    public void whenByTicketColumnFail() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, Calendar.SEPTEMBER, 12, 21, 0);
+        Ticket ticket = cinema.buy(account, 7, 100500, date);
     }
 }
