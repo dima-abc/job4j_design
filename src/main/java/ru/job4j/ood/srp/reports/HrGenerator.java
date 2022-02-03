@@ -1,6 +1,5 @@
 package ru.job4j.ood.srp.reports;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -17,11 +16,10 @@ import static java.util.Collections.*;
  * @since 02.02.2022
  */
 public class HrGenerator implements ReportGenerator<Employee, String> {
-    private Comparator<Employee> comparator = (e1, e2) -> Integer.compare((int) e2.getSalary(), (int) e1.getSalary());
 
     @Override
     public String generator(List<Employee> list) {
-        list.sort(comparator);
+        list.sort(Comparator.comparingDouble(Employee::getSalary).reversed());
         StringBuilder text = new StringBuilder()
                 .append("Name; Salary;")
                 .append(System.lineSeparator());
