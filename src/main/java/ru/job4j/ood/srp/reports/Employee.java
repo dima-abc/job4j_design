@@ -1,7 +1,7 @@
 package ru.job4j.ood.srp.reports;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -13,12 +13,22 @@ import java.util.Objects;
  * @author Dima_Nout
  * @since 02.02.2022
  */
+@XmlRootElement(name = "employee")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Employee {
+    @XmlAttribute
     private String name;
+    @XmlAttribute
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Calendar hired;
+    @XmlAttribute
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Calendar fired;
+    @XmlAttribute
     private double salary;
-    private DateFormat dateFormat = new SimpleDateFormat("dd MM yy");
+
+    public Employee() {
+    }
 
     public Employee(String name, Calendar hired, Calendar fired, Double salary) {
         this.name = name;
@@ -61,10 +71,6 @@ public class Employee {
     public Employee setSalary(double salary) {
         this.salary = salary;
         return this;
-    }
-
-    public DateFormat getDateFormat() {
-        return dateFormat;
     }
 
     @Override

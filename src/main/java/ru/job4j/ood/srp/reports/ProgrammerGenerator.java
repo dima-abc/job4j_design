@@ -20,8 +20,8 @@ public class ProgrammerGenerator implements ReportGenerator<Employee, String> {
         for (Employee employee : list) {
             html.append("<tr>")
                     .append("<td>").append(employee.getName()).append("</td>")
-                    .append("<td>").append(employee.getDateFormat().format(employee.getHired().getTime())).append("</td>")
-                    .append("<td>").append(employee.getDateFormat().format(employee.getFired().getTime())).append("</td>")
+                    .append("<td>").append(employee.getHired().getTime()).append("</td>")
+                    .append("<td>").append(employee.getFired().getTime()).append("</td>")
                     .append("<td>").append(String.format("%2f", employee.getSalary())).append("</td>")
                     .append("</tr>");
 

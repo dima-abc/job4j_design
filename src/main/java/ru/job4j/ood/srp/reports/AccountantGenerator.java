@@ -20,8 +20,8 @@ public class AccountantGenerator implements ReportGenerator<Employee, String> {
                 .append(System.lineSeparator());
         for (Employee employee : list) {
             text.append(employee.getName()).append(";")
-                    .append(employee.getDateFormat().format(employee.getHired().getTime())).append(";")
-                    .append(employee.getDateFormat().format(employee.getFired().getTime())).append(";")
+                    .append(employee.getHired().getTime()).append(";")
+                    .append(employee.getFired().getTime()).append(";")
                     .append(String.format("%.2f", nds(employee.getSalary()))).append(";")
                     .append(System.lineSeparator());
         }
