@@ -1,21 +1,21 @@
 package ru.job4j.ood.lsp.food;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Food {
     private String name;
-    private LocalDateTime expiryDate;
-    private LocalDateTime createDate;
+    private LocalDate expiryDate;
+    private LocalDate createDate;
     private float price;
     private float discount = 0;
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-    public Food(String name, LocalDateTime expiryDate, LocalDateTime createDate, float price) {
+    public Food(String name, LocalDate expiryDate, LocalDate createDate, float price) {
         this.name = name;
-        this.expiryDate = expiryDate.withNano(0);
-        this.createDate = createDate.withNano(0);
+        this.expiryDate = expiryDate;
+        this.createDate = createDate;
         this.price = price;
     }
 
@@ -27,20 +27,12 @@ public class Food {
         this.name = name;
     }
 
-    public LocalDateTime getExpiryDate() {
+    public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(LocalDateTime expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public LocalDateTime getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
     }
 
     public float getPrice() {
@@ -57,8 +49,8 @@ public class Food {
 
     public void setDiscount(float discount) {
         if (discount != 0) {
-            this.discount = discount;
-            this.price -= this.price * discount / 100;
+            setDiscount(discount);
+            setPrice(getPrice() - getPrice() * getDiscount() / 100);
         }
     }
 
