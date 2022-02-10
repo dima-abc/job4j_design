@@ -38,6 +38,7 @@ public class AccountParkingTest {
         assertFalse(account.enterCar(track));
     }
 
+    @Ignore
     @Test
     public void whenExitCarThenTrue() {
         Account<Car> account = new AccountParking(new ParkingCar("MEGA", 2, 0));
@@ -46,6 +47,7 @@ public class AccountParkingTest {
         assertTrue(account.exitCar(track));
     }
 
+    @Ignore
     @Test
     public void whenExitCarThenFalse() {
         Account<Car> account = new AccountParking(new ParkingCar("MEGA", 2, 0));
