@@ -21,20 +21,45 @@ public class Shop implements Storage<Product> {
      * @param type Product
      */
     @Override
-    public void add(Product type) {
-        shopStore.add(type);
+    public boolean add(Product type) {
+        boolean result = false;
+        if (accept(type)) {
+            shopStore.add(type);
+            result = true;
+        }
+        return result;
     }
 
     /**
-     * Метод добавляет товар в хранилище с присвоением скидки.
+     * Метод проверяет, может ли хранилище принять продукт.
      *
-     * @param type     Product
-     * @param discount float
+     * @param type Product
+     * @return boolean
      */
     @Override
-    public void add(Product type, float discount) {
-        type.setDiscount(discount);
-        add(type);
+    public boolean accept(Product type) {
+        boolean result = false;
+        if (getValidity(type) > 25 && getValidity(type) <= 75) {
+            result = true;
+        } else if (getValidity(type) > 75 && this.getValidity(type) < 100) {
+            setDiscount(type);
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Метод применяет скидку к товару.
+     *
+     * @param product Product
+     */
+    private void setDiscount(Product product) {
+        if (product.getDiscount() != 0) {
+            float price = product.getPrice();
+            float discount = product.getDiscount();
+            price -= price * discount / 100;
+            product.setPrice(price);
+        }
     }
 
     /**
@@ -44,6 +69,6 @@ public class Shop implements Storage<Product> {
      */
     @Override
     public List<Product> findAll() {
-        return this.shopStore;
+        return new ArrayList<>(this.shopStore);
     }
 }

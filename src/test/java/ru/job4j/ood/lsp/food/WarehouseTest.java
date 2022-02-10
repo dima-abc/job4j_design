@@ -20,37 +20,57 @@ public class WarehouseTest {
 
     @Test
     public void whenAddProduct() {
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30);
-        Storage<Product> shop = new Warehouse();
-        shop.add(product);
-        assertThat(shop.findAll(), is(List.of(product)));
+        Product product = new Food("Bread", LocalDate.of(2022, 2, 28),
+                LocalDate.of(2022, 2, 8), 30, 50);
+        Storage<Product> warehouse = new Warehouse();
+        warehouse.add(product);
+        assertThat(warehouse.findAll(), is(List.of(product)));
     }
 
     @Test
     public void whenAddProductDiscount() {
         Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30);
-        Storage<Product> shop = new Warehouse();
-        shop.add(product, 50);
-        assertThat(product.getPrice(), is(15.0f));
+                LocalDate.of(2022, 2, 8), 30, 50);
+        Storage<Product> warehouse = new Warehouse();
+        warehouse.add(product);
+        assertThat(product.getPrice(), is(30.0f));
     }
 
     @Test
     public void whenFindAllProduct() {
         Product bread = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30);
+                LocalDate.of(2022, 2, 10), 30, 50);
         Product cheese = new Food("Cheese", LocalDate.of(2022, 3, 20),
-                LocalDate.of(2021, 12, 5), 233.55f);
+                LocalDate.of(2022, 2, 5), 233.55f, 50);
         Product milk = new Food("Milk", LocalDate.of(2022, 2, 23),
-                LocalDate.of(2022, 2, 9), 80);
+                LocalDate.of(2022, 2, 9), 80, 50);
         Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 28),
-                LocalDate.of(2022, 2, 1), 120);
-        Storage<Product> shop = new Warehouse();
-        shop.add(bread);
-        shop.add(cheese);
-        shop.add(milk);
-        shop.add(sourCream);
-        assertThat(shop.findAll(), is(List.of(bread, cheese, milk, sourCream)));
+                LocalDate.of(2022, 2, 5), 120, 50);
+        Storage<Product> warehouse = new Warehouse();
+        warehouse.add(bread);
+        warehouse.add(cheese);
+        warehouse.add(milk);
+        warehouse.add(sourCream);
+        System.out.println(warehouse.getValidity(bread)
+                + "\n" + warehouse.getValidity(cheese)
+                + "\n" + warehouse.getValidity(milk)
+                + "\n" + warehouse.getValidity(sourCream));
+        assertThat(warehouse.findAll(), is(List.of(bread, cheese, milk, sourCream)));
+    }
+
+    @Test
+    public void whenWarehouseAcceptThenTrue() {
+        Storage<Product> warehouse = new Warehouse();
+        Product product = new Food("Bread", LocalDate.of(2022, 3, 15),
+                LocalDate.of(2022, 2, 10), 30, 50);
+        assertTrue(warehouse.accept(product));
+    }
+
+    @Test
+    public void whenWarehouseAcceptThenFalse() {
+        Storage<Product> warehouse = new Warehouse();
+        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
+                LocalDate.of(2022, 1, 10), 30, 50);
+        assertFalse(warehouse.accept(product));
     }
 }

@@ -19,37 +19,48 @@ import static org.junit.Assert.*;
 public class TrashTest {
     @Test
     public void whenAddProduct() {
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30);
+        Product product = new Food("Bread", LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 1), 30, 50);
         Storage<Product> shop = new Trash();
         shop.add(product);
         assertThat(shop.findAll(), is(List.of(product)));
     }
 
     @Test
-    public void whenAddProductDiscount() {
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30);
-        Storage<Product> shop = new Trash();
-        shop.add(product, 50);
-        assertThat(product.getPrice(), is(15.0f));
-    }
-
-    @Test
     public void whenFindAllProduct() {
-        Product bread = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30);
-        Product cheese = new Food("Cheese", LocalDate.of(2022, 3, 20),
-                LocalDate.of(2021, 12, 5), 233.55f);
-        Product milk = new Food("Milk", LocalDate.of(2022, 2, 23),
-                LocalDate.of(2022, 2, 9), 80);
-        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 28),
-                LocalDate.of(2022, 2, 1), 120);
+        Product bread = new Food("Bread", LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 1), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.of(2022, 2, 10),
+                LocalDate.of(2021, 12, 1), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 1), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 1), 120, 50);
         Storage<Product> shop = new Trash();
         shop.add(bread);
         shop.add(cheese);
         shop.add(milk);
         shop.add(sourCream);
+        System.out.println(shop.getValidity(bread)
+                + "\n" + shop.getValidity(cheese)
+                + "\n" + shop.getValidity(milk)
+                + "\n" + shop.getValidity(sourCream));
         assertThat(shop.findAll(), is(List.of(bread, cheese, milk, sourCream)));
+    }
+
+    @Test
+    public void whenTrashAcceptThenTrue() {
+        Storage<Product> trash = new Trash();
+        Product product = new Food("Bread", LocalDate.of(2022, 2, 10),
+                LocalDate.of(2022, 2, 1), 30, 50);
+        assertTrue(trash.accept(product));
+    }
+
+    @Test
+    public void whenTrashAcceptThenFalse() {
+        Storage<Product> trash = new Trash();
+        Product product = new Food("Bread", LocalDate.of(2022, 12, 15),
+                LocalDate.of(2022, 1, 10), 30, 50);
+        assertFalse(trash.accept(product));
     }
 }

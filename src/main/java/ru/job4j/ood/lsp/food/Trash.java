@@ -21,20 +21,24 @@ public class Trash implements Storage<Product> {
      * @param type Product
      */
     @Override
-    public void add(Product type) {
-        trashStore.add(type);
+    public boolean add(Product type) {
+        boolean result = false;
+        if (accept(type)) {
+            trashStore.add(type);
+            result = true;
+        }
+        return result;
     }
 
     /**
-     * Метод добавляет товар в хранилище с присвоением скидки.
+     * Метод проверяет, может ли хранилище принять продукт.
      *
-     * @param type     Product
-     * @param discount float
+     * @param type Product
+     * @return boolean
      */
     @Override
-    public void add(Product type, float discount) {
-        type.setDiscount(discount);
-        add(type);
+    public boolean accept(Product type) {
+        return getValidity(type) >= 100;
     }
 
     /**
@@ -44,6 +48,6 @@ public class Trash implements Storage<Product> {
      */
     @Override
     public List<Product> findAll() {
-        return this.trashStore;
+        return new ArrayList<>(this.trashStore);
     }
 }

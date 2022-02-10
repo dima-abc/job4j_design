@@ -20,9 +20,7 @@ public interface Product {
 
     float getPrice();
 
+    void setPrice(float price);
+
     float getDiscount();
-
-    void setDiscount(float discount);
-
-    float getValidity();
 }

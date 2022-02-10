@@ -12,16 +12,10 @@ import java.util.function.Predicate;
  * @since 09.02.2022.
  */
 public class ControllQuality implements Sorter<Product> {
-    private Storage<Product> warehouse;
-    private Storage<Product> shop;
-    private Storage<Product> trash;
-    private float discount;
+    private List<Storage<Product>> storages;
 
-    public ControllQuality(Storage<Product> warehouse, Storage<Product> shop, Storage<Product> trash, float discount) {
-        this.warehouse = warehouse;
-        this.shop = shop;
-        this.trash = trash;
-        this.discount = discount;
+    public ControllQuality(List<Storage<Product>> storages) {
+        this.storages = storages;
     }
 
     /**
@@ -30,24 +24,21 @@ public class ControllQuality implements Sorter<Product> {
      * @param product Product.
      */
     public void sorterQuality(Product product) {
-        sorter(product, warehouse, p -> p.getValidity() <= 25, 0);
-        sorter(product, shop, p -> p.getValidity() > 25 && p.getValidity() <= 75, 0);
-        sorter(product, shop, p -> p.getValidity() > 75 && p.getValidity() < 100, discount);
-        sorter(product, trash, p -> p.getValidity() >= 100, 0);
+        for (Storage<Product> storage : this.storages) {
+            sorter(product, storage);
+        }
     }
 
     /**
      * Метод добавляет в хранилище на основании условия.
      *
-     * @param product   Product.
-     * @param storage   Storage.
-     * @param predicate Predicate.
-     * @param discount  float.
+     * @param product Product.
+     * @param storage Storage.
      */
     @Override
-    public void sorter(Product product, Storage<Product> storage, Predicate<Product> predicate, float discount) {
-        if (predicate.test(product)) {
-            storage.add(product, discount);
+    public void sorter(Product product, Storage<Product> storage) {
+        if (storage.accept(product)) {
+            storage.add(product);
         }
     }
 }

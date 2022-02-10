@@ -10,5 +10,5 @@ import java.util.function.Predicate;
  * @param <T> Type.
  */
 public interface Sorter<T> {
-    void sorter(T type, Storage<T> storage, Predicate<T> predicate, float discount);
+    void sorter(T type, Storage<T> storage);
 }

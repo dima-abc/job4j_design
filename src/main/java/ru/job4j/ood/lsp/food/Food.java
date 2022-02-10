@@ -17,13 +17,14 @@ public class Food implements Product {
     private LocalDate expiryDate;
     private LocalDate createDate;
     private float price;
-    private float discount = 0;
+    private float discount;
 
-    public Food(String name, LocalDate expiryDate, LocalDate createDate, float price) {
+    public Food(String name, LocalDate expiryDate, LocalDate createDate, float price, float discount) {
         this.name = name;
         this.expiryDate = expiryDate;
         this.createDate = createDate;
         this.price = price;
+        this.discount = discount;
     }
 
     @Override
@@ -65,32 +66,6 @@ public class Food implements Product {
     @Override
     public float getDiscount() {
         return discount;
-    }
-
-    /**
-     * Метод применяет скидку к товару.
-     *
-     * @param discount Discount percent.
-     */
-    @Override
-    public void setDiscount(float discount) {
-        if (discount != 0) {
-            this.discount = discount;
-            this.price -= this.price * discount / 100;
-        }
-    }
-
-    /**
-     * Метод возвращает процент окончания срока годности.
-     *
-     * @return Validity percent.
-     */
-    @Override
-    public float getValidity() {
-        float now = LocalDate.now().getLong(ChronoField.EPOCH_DAY);
-        float expiryDate = this.getExpiryDate().getLong(ChronoField.EPOCH_DAY);
-        float createDate = this.getCreateDate().getLong(ChronoField.EPOCH_DAY);
-        return 100 - (expiryDate - now) / (expiryDate - createDate) * 100;
     }
 
     @Override
