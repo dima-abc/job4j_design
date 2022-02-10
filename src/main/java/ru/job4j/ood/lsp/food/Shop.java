@@ -24,6 +24,7 @@ public class Shop implements Storage<Product> {
     public boolean add(Product type) {
         boolean result = false;
         if (accept(type)) {
+            setDiscount(type, p -> getValidity(p) > 75 && getValidity(p) < 100);
             shopStore.add(type);
             result = true;
         }
@@ -38,14 +39,7 @@ public class Shop implements Storage<Product> {
      */
     @Override
     public boolean accept(Product type) {
-        boolean result = false;
-        if (getValidity(type) > 25 && getValidity(type) <= 75) {
-            result = true;
-        } else if (getValidity(type) > 75 && this.getValidity(type) < 100) {
-            setDiscount(type);
-            result = true;
-        }
-        return result;
+        return getValidity(type) > 25 && getValidity(type) < 100;
     }
 
     /**
@@ -53,8 +47,8 @@ public class Shop implements Storage<Product> {
      *
      * @param product Product
      */
-    private void setDiscount(Product product) {
-        if (product.getDiscount() != 0) {
+    private void setDiscount(Product product, Predicate<Product> predicate) {
+        if (product.getDiscount() != 0 && predicate.test(product)) {
             float price = product.getPrice();
             float discount = product.getDiscount();
             price -= price * discount / 100;

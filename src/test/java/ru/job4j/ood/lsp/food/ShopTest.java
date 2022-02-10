@@ -20,8 +20,8 @@ public class ShopTest {
 
     @Test
     public void whenAddProduct() {
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30, 50);
+        Product product = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(2), 30, 50);
         Storage<Product> shop = new Shop();
         shop.add(product);
         assertThat(shop.findAll(), is(List.of(product)));
@@ -29,8 +29,8 @@ public class ShopTest {
 
     @Test
     public void whenAddProductDiscount() {
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 1, 25), 30, 50);
+        Product product = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(16), 30, 50);
         Storage<Product> shop = new Shop();
         shop.add(product);
         assertThat(product.getPrice(), is(15.0f));
@@ -39,29 +39,29 @@ public class ShopTest {
     @Test
     public void whenShopAcceptThenTrue() {
         Storage<Product> shop = new Shop();
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 1, 25), 30, 50);
+        Product product = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(16), 30, 50);
         assertTrue(shop.accept(product));
     }
 
     @Test
     public void whenShopAcceptThenFalse() {
         Storage<Product> shop = new Shop();
-        Product product = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 10), 30, 50);
+        Product product = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now(), 30, 50);
         assertFalse(shop.accept(product));
     }
 
     @Test
     public void whenFindAllProduct() {
-        Product bread = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 8), 30, 50);
-        Product cheese = new Food("Cheese", LocalDate.of(2022, 3, 20),
-                LocalDate.of(2021, 12, 30), 233.55f, 50);
-        Product milk = new Food("Milk", LocalDate.of(2022, 2, 23),
-                LocalDate.of(2022, 2, 5), 80, 50);
-        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 28),
-                LocalDate.of(2022, 2, 1), 120, 50);
+        Product bread = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(2), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now().plusDays(38),
+                LocalDate.now().minusDays(42), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now().plusDays(13),
+                LocalDate.now().minusDays(5), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now().plusDays(18),
+                LocalDate.now().minusDays(9), 120, 50);
         Storage<Product> shop = new Shop();
         shop.add(bread);
         shop.add(cheese);

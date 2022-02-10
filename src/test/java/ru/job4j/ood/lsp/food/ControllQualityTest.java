@@ -26,14 +26,14 @@ public class ControllQualityTest {
         Storage<Product> shop = new Shop();
         Storage<Product> trash = new Trash();
         ControllQuality controllQuality = new ControllQuality(List.of(warehouse, shop, trash));
-        Product bread = new Food("Bread", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 1), 30, 50);
-        Product cheese = new Food("Cheese", LocalDate.of(2022, 3, 20),
-                LocalDate.of(2021, 12, 1), 233.55f, 50);
-        Product milk = new Food("Milk", LocalDate.of(2022, 2, 23),
-                LocalDate.of(2022, 2, 1), 80, 50);
-        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 28),
-                LocalDate.of(2022, 2, 1), 120, 50);
+        Product bread = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(9), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now().plusDays(38),
+                LocalDate.now().minusDays(71), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now().plusDays(13),
+                LocalDate.now().minusDays(9), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now().plusDays(18),
+                LocalDate.now().minusDays(8), 120, 50);
         controllQuality.sorterQuality(bread);
         controllQuality.sorterQuality(cheese);
         controllQuality.sorterQuality(milk);
@@ -47,14 +47,14 @@ public class ControllQualityTest {
         Storage<Product> shop = new Shop();
         Storage<Product> trash = new Trash();
         ControllQuality controllQuality = new ControllQuality(List.of(warehouse, shop, trash));
-        Product bread = new Food("Bread", LocalDate.of(2022, 2, 9),
-                LocalDate.of(2022, 2, 1), 30, 50);
-        Product cheese = new Food("Cheese", LocalDate.of(2022, 2, 9),
-                LocalDate.of(2021, 12, 1), 233.55f, 50);
-        Product milk = new Food("Milk", LocalDate.of(2022, 2, 9),
-                LocalDate.of(2022, 2, 1), 80, 50);
-        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 9),
-                LocalDate.of(2022, 2, 1), 120, 50);
+        Product bread = new Food("Bread", LocalDate.now(),
+                LocalDate.now().minusDays(10), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now(),
+                LocalDate.now().minusDays(120), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now(),
+                LocalDate.now().minusDays(55), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now(),
+                LocalDate.now().minusDays(99), 120, 50);
         controllQuality.sorterQuality(bread);
         controllQuality.sorterQuality(cheese);
         controllQuality.sorterQuality(milk);
@@ -68,14 +68,14 @@ public class ControllQualityTest {
         Storage<Product> shop = new Shop();
         Storage<Product> trash = new Trash();
         ControllQuality controllQuality = new ControllQuality(List.of(warehouse, shop, trash));
-        Product bread = new Food("Bread", LocalDate.of(2022, 3, 15),
-                LocalDate.of(2022, 2, 8), 30, 50);
-        Product cheese = new Food("Cheese", LocalDate.of(2022, 6, 23),
-                LocalDate.of(2022, 1, 8), 233.55f, 50);
-        Product milk = new Food("Milk", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 2, 10), 80, 50);
-        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 3, 9),
-                LocalDate.of(2022, 2, 8), 120, 50);
+        Product bread = new Food("Bread", LocalDate.now().plusDays(33),
+                LocalDate.now().minusDays(2), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now().plusDays(139),
+                LocalDate.now().minusDays(33), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now().plusDays(5),
+                LocalDate.now(), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now().plusDays(27),
+                LocalDate.now().minusDays(2), 120, 50);
         controllQuality.sorterQuality(bread);
         controllQuality.sorterQuality(cheese);
         controllQuality.sorterQuality(milk);
@@ -89,21 +89,21 @@ public class ControllQualityTest {
         Storage<Product> shop = new Shop();
         Storage<Product> trash = new Trash();
         ControllQuality controllQuality = new ControllQuality(List.of(warehouse, shop, trash));
-        Product bread = new Food("Bread", LocalDate.of(2022, 3, 15),
-                LocalDate.of(2022, 2, 8), 30, 50);
-        Product cheese = new Food("Cheese", LocalDate.of(2022, 4, 23),
-                LocalDate.of(2022, 1, 8), 233.55f, 50);
-        Product milk = new Food("Milk", LocalDate.of(2022, 2, 15),
-                LocalDate.of(2022, 1, 1), 80, 50);
-        Product sourCream = new Food("Sour Cream", LocalDate.of(2022, 2, 9),
-                LocalDate.of(2022, 1, 8), 120, 50);
+        Product bread = new Food("Bread", LocalDate.now().plusDays(33),
+                LocalDate.now().minusDays(2), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now().plusDays(73),
+                LocalDate.now().minusDays(33), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(40), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now(),
+                LocalDate.now().minusDays(33), 120, 50);
         controllQuality.sorterQuality(bread);
         controllQuality.sorterQuality(cheese);
         controllQuality.sorterQuality(milk);
         controllQuality.sorterQuality(sourCream);
         assertThat(warehouse.findAll(), is(List.of(bread)));
         assertThat(shop.findAll(), is(List.of(cheese, milk)));
-        assertThat(milk.getPrice(), is(20.00f));
+        assertThat(milk.getPrice(), is(40.00f));
         assertThat(trash.findAll(), is(List.of(sourCream)));
     }
 }
