@@ -8,14 +8,14 @@ package ru.job4j.ood.lsp.parking;
  * @author Dmitry
  * @since 09.02.2022.
  */
-public interface Parking<T> {
+public interface Parking<T extends Car> {
     String getAddress();
 
     int getCountTrack();
 
     int getCountPassengerCar();
 
-    T addCar(T type);
+    boolean addCar(T type);
 
-    T deleteCar(T type);
+    boolean deleteCar(T type);
 }
