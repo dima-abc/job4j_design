@@ -54,4 +54,31 @@ public class AccountParkingTest {
         Car track = new Track("KAMAZ", 2);
         assertTrue(account.exitCar(track));
     }
+
+    @Ignore
+    @Test
+    public void whenTrackEnterInPassengerCarPlaceIsSmallerThanTruckSize() {
+        Account<Car> account = new AccountParking(new ParkingCar("MEGA", 0, 2));
+        Car track = new Track("Kamaz", 3);
+        assertFalse(account.enterCar(track));
+    }
+
+    @Ignore
+    @Test
+    public void whenTrackEnterSize2InPassengerCarPlaceSize3ThanTruckEnter() {
+        Account<Car> account = new AccountParking(new ParkingCar("MEGA", 0, 3));
+        Car track = new Track("Kamaz", 2);
+        Car passengerCar = new PassengerCar("Lada", 1);
+        assertTrue(account.enterCar(track));
+        assertFalse(account.enterCar(track));
+        assertTrue(account.enterCar(passengerCar));
+    }
+
+    @Ignore
+    @Test
+    public void whenPassengerCarEnterThePlaceTruckThenFalse() {
+        Account<Car> account = new AccountParking(new ParkingCar("Mega", 2, 0));
+        Car passengerCar = new PassengerCar("Lada", 1);
+        assertFalse(account.enterCar(passengerCar));
+    }
 }
