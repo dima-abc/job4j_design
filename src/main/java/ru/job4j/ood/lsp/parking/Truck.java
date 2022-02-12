@@ -5,17 +5,24 @@ import java.util.Objects;
 /**
  * 2.5.3. LSP
  * 2. Парковка машин [#853]
- * Модель данных легковых машин.
+ * Модель данных грузовых машин.
  *
  * @author Dmitry
  * @since 10.02.2022.
  */
-public class Car implements Transport {
+public class Truck implements Transport {
     private final String name;
-    private static final int SIZE = 1;
+    private int size = 2;
 
-    public Car(String name) {
+    public Truck(String name) {
         this.name = name;
+    }
+
+    public Truck(String name, int size) {
+        this.name = name;
+        if (size > 2) {
+            this.size = size;
+        }
     }
 
     @Override
@@ -25,7 +32,7 @@ public class Car implements Transport {
 
     @Override
     public int getSize() {
-        return SIZE;
+        return this.size;
     }
 
     @Override
@@ -36,12 +43,12 @@ public class Car implements Transport {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Car car = (Car) o;
-        return Objects.equals(name, car.name);
+        Truck truck = (Truck) o;
+        return size == truck.size && Objects.equals(name, truck.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name, size);
     }
 }

@@ -8,8 +8,8 @@ package ru.job4j.ood.lsp.parking;
  * @author Dmitry
  * @since 09.02.2022.
  */
-public interface Account<Car> {
-    boolean enterCar(Car car);
+public interface Camp<T extends Transport> {
+    boolean enterTransport(T transport);
 
-    boolean exitCar(Car car);
+    boolean exitTransport(T transport);
 }

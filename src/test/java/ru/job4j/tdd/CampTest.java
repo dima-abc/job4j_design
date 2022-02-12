@@ -9,12 +9,12 @@ import static org.junit.Assert.*;
 /**
  * 2.5.0. TDD
  * 2. Что такое TDD? [#4918]
- * Test. Account.
+ * Test. Camp.
  *
  * @author Dima_Nout
  * @since 30.01.2022
  */
-public class AccountTest {
+public class CampTest {
     @Ignore
     @Test
     public void whenCreateAccount() {

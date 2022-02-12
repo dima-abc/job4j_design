@@ -24,7 +24,7 @@ public interface Cinema {
     /**
      * Покупка билетов.
      *
-     * @param account Account
+     * @param account Camp
      * @param row     Ряд.
      * @param column  Место.
      * @param date    Дата сеанса.
