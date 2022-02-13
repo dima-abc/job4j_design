@@ -26,9 +26,9 @@ public class Parking implements Camp<Transport> {
     @Override
     public boolean enterTransport(Transport transport) {
         boolean result = false;
-        if (transport.getSize() == 1) {
+        if (transport.getSize() == Car.SIZE) {
             result = addCar(transport);
-        } else if (transport.getSize() > 1) {
+        } else if (transport.getSize() > Car.SIZE) {
             result = addTruck(transport);
         }
         return result;
@@ -42,7 +42,7 @@ public class Parking implements Camp<Transport> {
      */
     private boolean addCar(Transport car) {
         boolean result = false;
-        int pointCarParking = findPointTransport(cars, 1);
+        int pointCarParking = findPointTransport(cars, Car.SIZE);
         if (pointCarParking > -1) {
             cars[pointCarParking] = car;
             result = true;
@@ -58,12 +58,13 @@ public class Parking implements Camp<Transport> {
      */
     private boolean addTruck(Transport track) {
         boolean result = false;
-        int pointTruckParking = findPointTransport(trucks, 1);
-        int pointCarParking = findPointTransport(cars, track.getSize());
+        int pointTruckParking = findPointTransport(trucks, Car.SIZE);
         if (pointTruckParking > -1) {
             trucks[pointTruckParking] = track;
             result = true;
-        } else if (pointCarParking > -1) {
+        }
+        if (!result) {
+            int pointCarParking = findPointTransport(cars, track.getSize());
             result = addTrackInPassenger(track, pointCarParking);
         }
         return result;
@@ -77,9 +78,11 @@ public class Parking implements Camp<Transport> {
      */
     private boolean addTrackInPassenger(Transport truck, int pointCarParking) {
         boolean result = false;
-        for (int i = pointCarParking - truck.getSize() + 1; i <= pointCarParking; i++) {
-            cars[i] = truck;
-            result = true;
+        if (pointCarParking > -1) {
+            for (int i = pointCarParking - truck.getSize() + 1; i <= pointCarParking; i++) {
+                cars[i] = truck;
+                result = true;
+            }
         }
         return result;
     }
@@ -87,7 +90,7 @@ public class Parking implements Camp<Transport> {
     /**
      * Метод ищет свободное места для грузовика на пассажирской парковке.
      *
-     * @param transports Transport
+     * @param transports    Transport
      * @param sizeTransport int
      * @return int
      */

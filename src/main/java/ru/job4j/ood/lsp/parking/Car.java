@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class Car implements Transport {
     private final String name;
-    private static final int SIZE = 1;
+    public static final int SIZE = 1;
 
     public Car(String name) {
         this.name = name;
