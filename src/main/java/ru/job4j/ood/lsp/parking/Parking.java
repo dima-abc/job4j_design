@@ -121,10 +121,10 @@ public class Parking implements Camp<Transport> {
     @Override
     public boolean exitTransport(Transport transport) {
         boolean result = false;
-        if (transport.getSize() >= 1) {
+        if (transport.getSize() >= Car.SIZE) {
             result = exitParking(cars, transport);
         }
-        if (transport.getSize() > 1 && !result) {
+        if (transport.getSize() > Car.SIZE && !result) {
             result = exitParking(trucks, transport);
         }
         return result;
