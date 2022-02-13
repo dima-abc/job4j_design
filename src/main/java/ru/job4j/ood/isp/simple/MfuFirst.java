@@ -1,4 +1,4 @@
-package ru.job4j.ood.isp;
+package ru.job4j.ood.isp.simple;
 
 /**
  * 2.5.4. ISP

@@ -1,4 +1,6 @@
-package ru.job4j.ood.isp;
+package ru.job4j.ood.isp.simple;
+
+import ru.job4j.ood.isp.simple.OfficeEquipmentFirst;
 
 /**
  * 2.5.4. ISP
