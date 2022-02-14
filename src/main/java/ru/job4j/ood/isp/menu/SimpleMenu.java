@@ -16,27 +16,28 @@ public class SimpleMenu implements Menu {
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
         boolean result = false;
-        Optional<MenuItemInfo> parentMenu = select(parentName);
-        Optional<MenuItemInfo> childMenu = select(childName);
-        if ((parentMenu.isPresent() && childMenu.isEmpty())) {
-            for (MenuItem menuItem : rootElement) {
-                if (menuItem.getName().equals(parentName)) {
-                    menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
-                    break;
-                }
-            }
+        Optional<ItemInfo> parentMenu = findItem(parentName);
+        Optional<ItemInfo> childMenu = findItem(childName);
+        if (parentMenu.isPresent() && childMenu.isEmpty()) {
+            parentMenu.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
             result = true;
         }
         if (parentMenu.isEmpty() && childMenu.isEmpty()) {
             rootElement.add(new SimpleMenuItem(childName, actionDelegate));
             result = true;
         }
+
         return result;
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        return findItem(itemName);
+        Optional<MenuItemInfo> result = Optional.empty();
+        Optional<ItemInfo> itemInfo = findItem(itemName);
+        if (itemInfo.isPresent()) {
+            result = Optional.of(new MenuItemInfo(itemInfo.get().menuItem, itemInfo.get().number));
+        }
+        return result;
     }
 
     @Override
@@ -60,13 +61,13 @@ public class SimpleMenu implements Menu {
         };
     }
 
-    private Optional<MenuItemInfo> findItem(String name) {
+    private Optional<ItemInfo> findItem(String name) {
         DFSIterator iterator = new DFSIterator();
-        Optional<MenuItemInfo> result = Optional.empty();
+        Optional<ItemInfo> result = Optional.empty();
         while (iterator.hasNext()) {
             ItemInfo itemInfo = iterator.next();
             if (itemInfo.menuItem.getName().equals(name)) {
-                result = Optional.of(new MenuItemInfo(itemInfo.menuItem, itemInfo.menuItem.getName()));
+                result = Optional.of(itemInfo);
                 break;
             }
         }

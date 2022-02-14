@@ -1,9 +1,9 @@
 package ru.job4j.ood.isp.menu;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -16,9 +16,8 @@ import static org.junit.Assert.*;
  * @since 13.02.2022
  */
 public class MenuTest {
-    public static final ActionDelegate STUB_ACTION = System.out::println;
+    private static final ActionDelegate STUB_ACTION = System.out::println;
 
-    @Ignore
     @Test
     public void whenAddThenReturnSame() {
         Menu menu = new SimpleMenu();
@@ -40,6 +39,31 @@ public class MenuTest {
                         "Покормить собаку", List.of(), STUB_ACTION, "2."
                 ), menu.select("Покормить собаку").get()
         );
-        menu.forEach(i -> System.out.println(i.getNumber() + i.getName()));
+        new SimpleMenuPrint("-").print(menu);
+    }
+
+    @Test
+    public void whenSelectReturnEmptyThenEmpty() {
+        Menu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "Start menu", STUB_ACTION);
+        assertEquals(menu.select("End menu"), Optional.empty());
+    }
+
+    @Test
+    public void whenSelectFirstMenuThenFirstMenu() {
+        Menu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "First menu", STUB_ACTION);
+        assertEquals(new Menu.MenuItemInfo("First menu", List.of(), STUB_ACTION, "1."),
+                menu.select("First menu").get());
+    }
+
+    @Test
+    public void whenSelectThreeChildMenuThenThreeChildMenu() {
+        Menu menu = new SimpleMenu();
+        menu.add(Menu.ROOT, "First menu", STUB_ACTION);
+        menu.add("First menu", "Two menu", STUB_ACTION);
+        menu.add("Two menu", "Three menu", STUB_ACTION);
+        assertEquals(new Menu.MenuItemInfo("Three menu", List.of(), STUB_ACTION, "1.1.1."),
+                menu.select("Three menu").get());
     }
 }
