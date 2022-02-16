@@ -21,6 +21,62 @@ import static org.junit.Assert.*;
 public class ControllQualityTest {
 
     @Test
+    public void whenResortedShopToTrashThenTrue() {
+        Storage<Product> warehouse = new Warehouse();
+        Storage<Product> shop = new Shop();
+        Storage<Product> trash = new Trash();
+        List<Storage<Product>> storages = Arrays.asList(warehouse, shop, trash);
+        ControllQuality controllQuality = new ControllQuality(storages);
+        Product bread = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(9), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now().plusDays(38),
+                LocalDate.now().minusDays(71), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now().plusDays(13),
+                LocalDate.now().minusDays(9), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now().plusDays(18),
+                LocalDate.now().minusDays(8), 120, 50);
+        List<Product> products = Arrays.asList(bread, cheese, milk, sourCream);
+        for (Product product : products) {
+            controllQuality.sorterQuality(product);
+        }
+        assertThat(shop.findAll(), is(products));
+        bread.setExpiryDate(LocalDate.now());
+        cheese.setExpiryDate(LocalDate.now());
+        milk.setExpiryDate(LocalDate.now());
+        sourCream.setExpiryDate(LocalDate.now());
+        controllQuality.resort();
+        assertThat(trash.findAll(), is(products));
+    }
+
+    @Test
+    public void whenResortShopToWarehouseThenTrue() {
+        Storage<Product> warehouse = new Warehouse();
+        Storage<Product> shop = new Shop();
+        Storage<Product> trash = new Trash();
+        List<Storage<Product>> storages = Arrays.asList(warehouse, shop, trash);
+        ControllQuality controllQuality = new ControllQuality(storages);
+        Product bread = new Food("Bread", LocalDate.now().plusDays(5),
+                LocalDate.now().minusDays(9), 30, 50);
+        Product cheese = new Food("Cheese", LocalDate.now().plusDays(38),
+                LocalDate.now().minusDays(71), 233.55f, 50);
+        Product milk = new Food("Milk", LocalDate.now().plusDays(13),
+                LocalDate.now().minusDays(9), 80, 50);
+        Product sourCream = new Food("Sour Cream", LocalDate.now().plusDays(18),
+                LocalDate.now().minusDays(8), 120, 50);
+        List<Product> products = Arrays.asList(bread, cheese, milk, sourCream);
+        for (Product product : products) {
+            controllQuality.sorterQuality(product);
+        }
+        assertThat(shop.findAll(), is(products));
+        bread.setExpiryDate(LocalDate.now().plusDays(33));
+        cheese.setExpiryDate(LocalDate.now().plusDays(500));
+        milk.setExpiryDate(LocalDate.now().plusDays(500));
+        sourCream.setExpiryDate(LocalDate.now().plusDays(27));
+        controllQuality.resort();
+        assertThat(warehouse.findAll(), is(products));
+    }
+
+    @Test
     public void whenSorterQualityThenAllToShoop() {
         Storage<Product> warehouse = new Warehouse();
         Storage<Product> shop = new Shop();
@@ -34,11 +90,11 @@ public class ControllQualityTest {
                 LocalDate.now().minusDays(9), 80, 50);
         Product sourCream = new Food("Sour Cream", LocalDate.now().plusDays(18),
                 LocalDate.now().minusDays(8), 120, 50);
-        controllQuality.sorterQuality(bread);
-        controllQuality.sorterQuality(cheese);
-        controllQuality.sorterQuality(milk);
-        controllQuality.sorterQuality(sourCream);
-        assertThat(shop.findAll(), is(List.of(bread, cheese, milk, sourCream)));
+        List<Product> products = Arrays.asList(bread, cheese, milk, sourCream);
+        for (Product product : products) {
+            controllQuality.sorterQuality(product);
+        }
+        assertThat(shop.findAll(), is(products));
     }
 
     @Test

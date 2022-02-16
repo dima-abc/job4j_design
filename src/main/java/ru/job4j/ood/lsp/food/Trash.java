@@ -50,4 +50,12 @@ public class Trash implements Storage<Product> {
     public List<Product> findAll() {
         return new ArrayList<>(this.trashStore);
     }
+
+    /**
+     * Метод очищает хранилище.
+     */
+    @Override
+    public void clear() {
+        this.trashStore.clear();
+    }
 }

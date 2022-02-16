@@ -11,4 +11,6 @@ import java.util.function.Predicate;
  */
 public interface Sorter<T> {
     void sorter(T type, Storage<T> storage);
+
+    void resort();
 }

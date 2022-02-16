@@ -50,4 +50,13 @@ public class Warehouse implements Storage<Product> {
     public List<Product> findAll() {
         return new ArrayList<>(this.warehouseStore);
     }
+
+    /**
+     * Метод очищает хранилище.
+     */
+    @Override
+    public void clear() {
+        this.warehouseStore.clear();
+    }
+
 }

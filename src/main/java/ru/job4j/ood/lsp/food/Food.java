@@ -41,6 +41,7 @@ public class Food implements Product {
         return expiryDate;
     }
 
+    @Override
     public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
     }
@@ -66,6 +67,11 @@ public class Food implements Product {
     @Override
     public float getDiscount() {
         return discount;
+    }
+
+    @Override
+    public void setDiscount(float discount) {
+        this.discount = discount;
     }
 
     @Override

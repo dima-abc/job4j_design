@@ -1,5 +1,6 @@
 package ru.job4j.ood.lsp.food;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -40,5 +41,24 @@ public class ControllQuality implements Sorter<Product> {
         if (storage.accept(product)) {
             storage.add(product);
         }
+    }
+
+    /**
+     * Метод извлекает все продукты и перераспределять их заново.
+     *
+     */
+    @Override
+    public void resort() {
+        List<Product> products = new ArrayList<>();
+        for (Storage<Product> storage : this.storages) {
+            products.addAll(storage.findAll());
+            storage.clear();
+        }
+        for (Storage<Product> storage : storages) {
+            for (Product product : products) {
+                sorter(product, storage);
+            }
+        }
+        products.clear();
     }
 }

@@ -19,6 +19,8 @@ public interface Storage<T> {
 
     boolean accept(T type);
 
+    void clear();
+
     /**
      * Метод возвращает процент окончания срока годности.
      *

@@ -65,4 +65,22 @@ public class Shop implements Storage<Product> {
     public List<Product> findAll() {
         return new ArrayList<>(this.shopStore);
     }
+
+    /**
+     * Метод очищает хранилище.
+     * В данном методе дополнительно отменяется скидка.
+     */
+    @Override
+    public void clear() {
+        for (Product product : this.shopStore) {
+            Predicate<Product> predicate = p -> getValidity(p) > 75 && getValidity(p) < 100;
+            if (predicate.test(product)) {
+                float oldDiscount = product.getDiscount();
+                product.setDiscount(oldDiscount * -1);
+                setDiscount(product, predicate);
+                product.setDiscount(oldDiscount);
+            }
+        }
+        shopStore.clear();
+    }
 }

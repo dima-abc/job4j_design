@@ -16,6 +16,8 @@ public interface Product {
 
     LocalDate getExpiryDate();
 
+    void setExpiryDate(LocalDate expiryDate);
+
     LocalDate getCreateDate();
 
     float getPrice();
@@ -23,4 +25,6 @@ public interface Product {
     void setPrice(float price);
 
     float getDiscount();
+
+    void setDiscount(float discount);
 }
