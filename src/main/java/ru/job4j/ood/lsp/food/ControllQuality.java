@@ -45,19 +45,13 @@ public class ControllQuality implements Sorter<Product> {
 
     /**
      * Метод извлекает все продукты и перераспределять их заново.
-     *
      */
     @Override
     public void resort() {
         List<Product> products = new ArrayList<>();
-        for (Storage<Product> storage : this.storages) {
-            products.addAll(storage.findAll());
-            storage.clear();
-        }
-        for (Storage<Product> storage : storages) {
-            for (Product product : products) {
-                sorter(product, storage);
-            }
+        this.storages.forEach(s -> products.addAll(s.findAll()));
+        for (Storage<Product> s : this.storages) {
+            products.forEach(p -> sorter(p, s));
         }
         products.clear();
     }
