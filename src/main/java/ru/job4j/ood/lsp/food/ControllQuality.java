@@ -2,7 +2,6 @@ package ru.job4j.ood.lsp.food;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * 2.5.3. LSP

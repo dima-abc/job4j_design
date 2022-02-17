@@ -72,15 +72,6 @@ public class Shop implements Storage<Product> {
      */
     @Override
     public void clear() {
-        for (Product product : this.shopStore) {
-            Predicate<Product> predicate = p -> getValidity(p) > 75 && getValidity(p) < 100;
-            if (predicate.test(product)) {
-                float oldDiscount = product.getDiscount();
-                product.setDiscount(oldDiscount * -1);
-                setDiscount(product, predicate);
-                product.setDiscount(oldDiscount);
-            }
-        }
         shopStore.clear();
     }
 }
