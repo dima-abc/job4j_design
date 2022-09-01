@@ -5,6 +5,3 @@ create table if not exists products (
                                         count integer default 0,
                                         price integer
 );
-
-alter table products add column tax integer;
-alter table products alter column tax set default 0;
