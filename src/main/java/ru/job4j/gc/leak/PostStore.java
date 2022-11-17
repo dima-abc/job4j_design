@@ -23,7 +23,7 @@ public class PostStore {
     private final AtomicInteger atomicInteger = new AtomicInteger(1);
 
     public Post add(Post post) {
-        Integer id = atomicInteger.decrementAndGet();
+        int id = atomicInteger.decrementAndGet();
         post.setId(id);
         posts.put(id, post);
         return post;
