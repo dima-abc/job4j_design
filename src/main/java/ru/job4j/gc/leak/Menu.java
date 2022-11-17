@@ -44,10 +44,10 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         PostStore postStore = new PostStore();
         Menu menu = new Menu();
-        menu.start(commentGenerator, scanner, userGenerator, postStore);
+        menu.start(commentGenerator, scanner, postStore);
     }
-    private void start(CommentGenerator commentGenerator, Scanner scanner,
-                              UserGenerator userGenerator, PostStore postStore) {
+
+    private void start(CommentGenerator commentGenerator, Scanner scanner, PostStore postStore) {
         boolean run = true;
         while (run) {
             System.out.println(MENU);
@@ -57,20 +57,18 @@ public class Menu {
             if (ADD_POST == userChoice) {
                 System.out.println(TEXT_OF_POST);
                 String text = scanner.nextLine();
-                userGenerator.generate();
-                commentGenerator.generate();
-                postStore.add(new Post(text, commentGenerator.getComments()));
+                createPost(commentGenerator, postStore, text);
             } else if (ADD_MANY_POST == userChoice) {
                 System.out.println(TEXT_OF_POST);
                 String text = scanner.nextLine();
                 System.out.println(COUNT);
                 String count = scanner.nextLine();
                 for (int i = 0; i < Integer.parseInt(count); i++) {
-                    createPost(commentGenerator, userGenerator, postStore, text);
+                    createPost(commentGenerator, postStore, text);
                 }
             } else if (SHOW_ALL_POSTS == userChoice) {
-                System.out.println(postStore.getPosts());
-                postStore.removeAll();
+                postStore.getPosts()
+                        .forEach(System.out::println);
             } else if (DELETE_POST == userChoice) {
                 System.out.println(ID_FOR_DELETE);
                 postStore.removeAll();
@@ -81,9 +79,7 @@ public class Menu {
         }
     }
 
-    private void createPost(CommentGenerator commentGenerator,
-                                   UserGenerator userGenerator, PostStore postStore, String text) {
-        userGenerator.generate();
+    private void createPost(CommentGenerator commentGenerator, PostStore postStore, String text) {
         commentGenerator.generate();
         postStore.add(new Post(text, commentGenerator.getComments()));
     }

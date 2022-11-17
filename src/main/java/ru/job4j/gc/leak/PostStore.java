@@ -1,5 +1,6 @@
 package ru.job4j.gc.leak;
 
+import ru.job4j.gc.leak.model.Comment;
 import ru.job4j.gc.leak.model.Post;
 
 import java.util.Collection;
@@ -29,6 +30,8 @@ public class PostStore {
     }
 
     public void removeAll() {
+        posts.values()
+                .forEach(post -> post.getComments().clear());
         posts.clear();
     }
 
